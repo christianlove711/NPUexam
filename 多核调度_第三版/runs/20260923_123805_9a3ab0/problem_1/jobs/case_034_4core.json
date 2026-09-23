@@ -1,0 +1,194 @@
+{
+  "case": "case_034",
+  "cores": 4,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v2_reuse_87",
+  "selected": {
+    "makespan": 543472,
+    "added_copy_bytes": 27798892,
+    "scheduled_copy_bytes": 30079278,
+    "original_graph_copy_bytes": 2280386,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 122880,
+        "UB": 40960
+      },
+      "1": {
+        "L1": 69632,
+        "UB": 40960
+      },
+      "2": {
+        "L1": 70656,
+        "UB": 32768
+      },
+      "3": {
+        "L1": 98304,
+        "UB": 32768
+      }
+    },
+    "evaluation_seconds": 1.117
+  },
+  "v1": {
+    "makespan": 595000,
+    "added_copy_bytes": 27406134,
+    "scheduled_copy_bytes": 29686520,
+    "original_graph_copy_bytes": 2280386,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 71680,
+        "UB": 32786
+      },
+      "1": {
+        "L1": 155648,
+        "UB": 32768
+      },
+      "2": {
+        "L1": 93184,
+        "UB": 32768
+      },
+      "3": {
+        "L1": 155648,
+        "UB": 40960
+      }
+    },
+    "evaluation_seconds": 1.156
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 0.421,
+  "total_seconds": 4.985,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 595000,
+      "added_copy_bytes": 27406134,
+      "scheduled_copy_bytes": 29686520,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 71680,
+          "UB": 32786
+        },
+        "1": {
+          "L1": 155648,
+          "UB": 32768
+        },
+        "2": {
+          "L1": 93184,
+          "UB": 32768
+        },
+        "3": {
+          "L1": 155648,
+          "UB": 40960
+        }
+      },
+      "evaluation_seconds": 1.156
+    },
+    {
+      "label": "v2_reuse_87",
+      "makespan": 543472,
+      "added_copy_bytes": 27798892,
+      "scheduled_copy_bytes": 30079278,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 122880,
+          "UB": 40960
+        },
+        "1": {
+          "L1": 69632,
+          "UB": 40960
+        },
+        "2": {
+          "L1": 70656,
+          "UB": 32768
+        },
+        "3": {
+          "L1": 98304,
+          "UB": 32768
+        }
+      },
+      "evaluation_seconds": 1.117
+    },
+    {
+      "label": "v2_critical_87",
+      "makespan": 546766,
+      "added_copy_bytes": 27864024,
+      "scheduled_copy_bytes": 30144410,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 122880,
+          "UB": 24704
+        },
+        "1": {
+          "L1": 57344,
+          "UB": 32780
+        },
+        "2": {
+          "L1": 98304,
+          "UB": 40960
+        },
+        "3": {
+          "L1": 96256,
+          "UB": 32768
+        }
+      },
+      "evaluation_seconds": 1.144
+    },
+    {
+      "label": "v3_idblock_32",
+      "makespan": 597854,
+      "added_copy_bytes": 11267208,
+      "scheduled_copy_bytes": 13547594,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 59904,
+          "UB": 16512
+        },
+        "1": {
+          "L1": 43008,
+          "UB": 16512
+        },
+        "2": {
+          "L1": 55296,
+          "UB": 40964
+        },
+        "3": {
+          "L1": 55296,
+          "UB": 98308
+        }
+      },
+      "evaluation_seconds": 0.589
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 726186,
+      "added_copy_bytes": 6329816,
+      "scheduled_copy_bytes": 8610202,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 138240,
+          "UB": 81924
+        },
+        "1": {
+          "L1": 91136,
+          "UB": 0
+        },
+        "2": {
+          "L1": 35840,
+          "UB": 66
+        },
+        "3": {
+          "L1": 0,
+          "UB": 81924
+        }
+      },
+      "evaluation_seconds": 0.462
+    }
+  ],
+  "errors": []
+}

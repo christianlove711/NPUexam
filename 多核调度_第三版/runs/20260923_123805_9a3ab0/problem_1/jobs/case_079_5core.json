@@ -1,0 +1,222 @@
+{
+  "case": "case_079",
+  "cores": 5,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v2_memory_332",
+  "selected": {
+    "makespan": 11196734,
+    "added_copy_bytes": 477417472,
+    "scheduled_copy_bytes": 486768640,
+    "original_graph_copy_bytes": 9351168,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 438272,
+        "UB": 0
+      },
+      "1": {
+        "L1": 438272,
+        "UB": 0
+      },
+      "2": {
+        "L1": 438272,
+        "UB": 0
+      },
+      "3": {
+        "L1": 438272,
+        "UB": 0
+      },
+      "4": {
+        "L1": 438272,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 13.027
+  },
+  "v1": {
+    "makespan": 11319187,
+    "added_copy_bytes": 468850688,
+    "scheduled_copy_bytes": 478201856,
+    "original_graph_copy_bytes": 9351168,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 524288,
+        "UB": 0
+      },
+      "1": {
+        "L1": 524288,
+        "UB": 0
+      },
+      "2": {
+        "L1": 524288,
+        "UB": 0
+      },
+      "3": {
+        "L1": 524288,
+        "UB": 0
+      },
+      "4": {
+        "L1": 524288,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 23.973
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 1.493,
+  "total_seconds": 60.276,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 11319187,
+      "added_copy_bytes": 468850688,
+      "scheduled_copy_bytes": 478201856,
+      "original_graph_copy_bytes": 9351168,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 524288,
+          "UB": 0
+        },
+        "1": {
+          "L1": 524288,
+          "UB": 0
+        },
+        "2": {
+          "L1": 524288,
+          "UB": 0
+        },
+        "3": {
+          "L1": 524288,
+          "UB": 0
+        },
+        "4": {
+          "L1": 524288,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 23.973
+    },
+    {
+      "label": "v2_memory_332",
+      "makespan": 11196734,
+      "added_copy_bytes": 477417472,
+      "scheduled_copy_bytes": 486768640,
+      "original_graph_copy_bytes": 9351168,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "1": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "2": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "3": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "4": {
+          "L1": 438272,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 13.027
+    },
+    {
+      "label": "v2_critical_332",
+      "makespan": 11249830,
+      "added_copy_bytes": 480636928,
+      "scheduled_copy_bytes": 489988096,
+      "original_graph_copy_bytes": 9351168,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "1": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "2": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "3": {
+          "L1": 438272,
+          "UB": 0
+        },
+        "4": {
+          "L1": 438272,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 12.696
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 13319806,
+      "added_copy_bytes": 124858368,
+      "scheduled_copy_bytes": 134209536,
+      "original_graph_copy_bytes": 9351168,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 292864,
+          "UB": 0
+        },
+        "1": {
+          "L1": 292864,
+          "UB": 0
+        },
+        "2": {
+          "L1": 288768,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 4.251
+    },
+    {
+      "label": "v3_idblock_512",
+      "makespan": 29535136,
+      "added_copy_bytes": 58589184,
+      "scheduled_copy_bytes": 67940352,
+      "original_graph_copy_bytes": 9351168,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 292864,
+          "UB": 0
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 4.309
+    }
+  ],
+  "errors": []
+}

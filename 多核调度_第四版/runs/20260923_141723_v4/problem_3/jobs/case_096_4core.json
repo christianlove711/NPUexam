@@ -1,0 +1,270 @@
+{
+  "case": "case_096",
+  "cores": 4,
+  "scene": "L2",
+  "status": "ok",
+  "selected_source": "paired_b_plan",
+  "selected": {
+    "makespan": 29041,
+    "added_copy_bytes": 226320,
+    "scheduled_copy_bytes": 445878,
+    "original_graph_copy_bytes": 219558,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 62208,
+        "UB": 8202
+      },
+      "1": {
+        "L1": 17280,
+        "UB": 24576
+      },
+      "2": {
+        "L1": 62208,
+        "UB": 8198
+      },
+      "3": {
+        "L1": 63744,
+        "UB": 24584
+      }
+    },
+    "cache_hit_rate": 0.45778932811978446,
+    "cache_hit_bytes": 192006,
+    "cache_miss_bytes": 227414,
+    "evaluation_seconds": 0.123
+  },
+  "v1": {
+    "makespan": 64681,
+    "added_copy_bytes": 159744,
+    "scheduled_copy_bytes": 379302,
+    "original_graph_copy_bytes": 219558,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 172672,
+        "UB": 130816
+      },
+      "1": {
+        "L1": 0,
+        "UB": 0
+      },
+      "2": {
+        "L1": 0,
+        "UB": 0
+      },
+      "3": {
+        "L1": 0,
+        "UB": 0
+      }
+    },
+    "cache_hit_rate": 0.014018755561640084,
+    "cache_hit_bytes": 4096,
+    "cache_miss_bytes": 288084,
+    "evaluation_seconds": 0.089
+  },
+  "paired": {
+    "no_l2": {
+      "makespan": 30278,
+      "added_copy_bytes": 226320,
+      "scheduled_copy_bytes": 445878,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 62208,
+          "UB": 8202
+        },
+        "1": {
+          "L1": 17280,
+          "UB": 24576
+        },
+        "2": {
+          "L1": 62208,
+          "UB": 8198
+        },
+        "3": {
+          "L1": 63744,
+          "UB": 24584
+        }
+      },
+      "evaluation_seconds": 0.104
+    },
+    "with_l2": {
+      "makespan": 29041,
+      "added_copy_bytes": 226320,
+      "scheduled_copy_bytes": 445878,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 62208,
+          "UB": 8202
+        },
+        "1": {
+          "L1": 17280,
+          "UB": 24576
+        },
+        "2": {
+          "L1": 62208,
+          "UB": 8198
+        },
+        "3": {
+          "L1": 63744,
+          "UB": 24584
+        }
+      },
+      "cache_hit_rate": 0.45778932811978446,
+      "cache_hit_bytes": 192006,
+      "cache_miss_bytes": 227414,
+      "evaluation_seconds": 0.123
+    },
+    "cache_speedup": 1.042594951964464
+  },
+  "b_plan_sha256": "0705d199f3d716d72a8821ddb838874e0219f3508580a8a8a81ed0f63e8ff1e4",
+  "generation_seconds": null,
+  "total_seconds": 0.428,
+  "evaluations": [
+    {
+      "label": "v3_seed",
+      "makespan": 64681,
+      "added_copy_bytes": 159744,
+      "scheduled_copy_bytes": 379302,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 172672,
+          "UB": 130816
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "cache_hit_rate": 0.014018755561640084,
+      "cache_hit_bytes": 4096,
+      "cache_miss_bytes": 288084,
+      "evaluation_seconds": 0.086
+    },
+    {
+      "label": "paired_with_l2",
+      "makespan": 29041,
+      "added_copy_bytes": 226320,
+      "scheduled_copy_bytes": 445878,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 62208,
+          "UB": 8202
+        },
+        "1": {
+          "L1": 17280,
+          "UB": 24576
+        },
+        "2": {
+          "L1": 62208,
+          "UB": 8198
+        },
+        "3": {
+          "L1": 63744,
+          "UB": 24584
+        }
+      },
+      "cache_hit_rate": 0.45778932811978446,
+      "cache_hit_bytes": 192006,
+      "cache_miss_bytes": 227414,
+      "evaluation_seconds": 0.123
+    },
+    {
+      "label": "paired_no_l2",
+      "makespan": 30278,
+      "added_copy_bytes": 226320,
+      "scheduled_copy_bytes": 445878,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 62208,
+          "UB": 8202
+        },
+        "1": {
+          "L1": 17280,
+          "UB": 24576
+        },
+        "2": {
+          "L1": 62208,
+          "UB": 8198
+        },
+        "3": {
+          "L1": 63744,
+          "UB": 24584
+        }
+      },
+      "evaluation_seconds": 0.104
+    },
+    {
+      "label": "v4_idblock_2",
+      "makespan": 34786,
+      "added_copy_bytes": 502956,
+      "scheduled_copy_bytes": 722514,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 60672,
+          "UB": 12288
+        },
+        "1": {
+          "L1": 62208,
+          "UB": 16384
+        },
+        "2": {
+          "L1": 60672,
+          "UB": 12292
+        },
+        "3": {
+          "L1": 62208,
+          "UB": 20488
+        }
+      },
+      "cache_hit_rate": 0.3968425108384895,
+      "cache_hit_bytes": 245132,
+      "cache_miss_bytes": 372574,
+      "evaluation_seconds": 0.13
+    },
+    {
+      "label": "v4_idblock_1",
+      "makespan": 35793,
+      "added_copy_bytes": 690832,
+      "scheduled_copy_bytes": 910390,
+      "original_graph_copy_bytes": 219558,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 61440,
+          "UB": 10242
+        },
+        "1": {
+          "L1": 43776,
+          "UB": 10240
+        },
+        "2": {
+          "L1": 43776,
+          "UB": 8198
+        },
+        "3": {
+          "L1": 62976,
+          "UB": 10246
+        }
+      },
+      "cache_hit_rate": 0.3043449496369561,
+      "cache_hit_bytes": 220812,
+      "cache_miss_bytes": 504720,
+      "evaluation_seconds": 0.142
+    }
+  ],
+  "errors": [],
+  "v3_makespan": 64681,
+  "seed_job_sha256": "65caf95dc107535f2ab127188e20a166c32a239fd520fa0845ae9e30d4ef234c",
+  "seed_plan_sha256": "7f7abce9eac3ec0f39dd582280a9d767d70129b1449f7f4c635bdcd0ef121763"
+}

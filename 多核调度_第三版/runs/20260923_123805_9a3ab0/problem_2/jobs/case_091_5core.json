@@ -1,0 +1,222 @@
+{
+  "case": "case_091",
+  "cores": 5,
+  "scene": "B",
+  "status": "ok",
+  "selected_source": "v3_idblock_128",
+  "selected": {
+    "makespan": 2349753,
+    "added_copy_bytes": 42311316,
+    "scheduled_copy_bytes": 48888972,
+    "original_graph_copy_bytes": 6577656,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 523776,
+        "UB": 4100
+      },
+      "1": {
+        "L1": 523776,
+        "UB": 242
+      },
+      "2": {
+        "L1": 523776,
+        "UB": 0
+      },
+      "3": {
+        "L1": 523776,
+        "UB": 0
+      },
+      "4": {
+        "L1": 523776,
+        "UB": 130
+      }
+    },
+    "evaluation_seconds": 8.703
+  },
+  "v1": {
+    "makespan": 4095909,
+    "added_copy_bytes": 213027348,
+    "scheduled_copy_bytes": 219605004,
+    "original_graph_copy_bytes": 6577656,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 523776,
+        "UB": 10240
+      },
+      "1": {
+        "L1": 523776,
+        "UB": 4102
+      },
+      "2": {
+        "L1": 523776,
+        "UB": 0
+      },
+      "3": {
+        "L1": 524288,
+        "UB": 31106
+      },
+      "4": {
+        "L1": 524288,
+        "UB": 2048
+      }
+    },
+    "evaluation_seconds": 18.81
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 3.851,
+  "total_seconds": 83.762,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 4095909,
+      "added_copy_bytes": 213027348,
+      "scheduled_copy_bytes": 219605004,
+      "original_graph_copy_bytes": 6577656,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 10240
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 4102
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 0
+        },
+        "3": {
+          "L1": 524288,
+          "UB": 31106
+        },
+        "4": {
+          "L1": 524288,
+          "UB": 2048
+        }
+      },
+      "evaluation_seconds": 18.81
+    },
+    {
+      "label": "v2_reuse_332",
+      "makespan": 3970318,
+      "added_copy_bytes": 210002988,
+      "scheduled_copy_bytes": 216580644,
+      "original_graph_copy_bytes": 6577656,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 10240
+        },
+        "1": {
+          "L1": 524288,
+          "UB": 38594
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 10240
+        },
+        "3": {
+          "L1": 523776,
+          "UB": 4102
+        },
+        "4": {
+          "L1": 523776,
+          "UB": 2048
+        }
+      },
+      "evaluation_seconds": 18.151
+    },
+    {
+      "label": "v2_critical_332",
+      "makespan": 3965434,
+      "added_copy_bytes": 209821744,
+      "scheduled_copy_bytes": 216399400,
+      "original_graph_copy_bytes": 6577656,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 524288,
+          "UB": 10240
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 10240
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 10240
+        },
+        "3": {
+          "L1": 524288,
+          "UB": 29250
+        },
+        "4": {
+          "L1": 523776,
+          "UB": 2048
+        }
+      },
+      "evaluation_seconds": 18.592
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 2349753,
+      "added_copy_bytes": 42311316,
+      "scheduled_copy_bytes": 48888972,
+      "original_graph_copy_bytes": 6577656,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 4100
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 242
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 0
+        },
+        "3": {
+          "L1": 523776,
+          "UB": 0
+        },
+        "4": {
+          "L1": 523776,
+          "UB": 130
+        }
+      },
+      "evaluation_seconds": 8.703
+    },
+    {
+      "label": "v3_idblock_512",
+      "makespan": 7441226,
+      "added_copy_bytes": 41719264,
+      "scheduled_copy_bytes": 48296920,
+      "original_graph_copy_bytes": 6577656,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 519008,
+          "UB": 0
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 4100
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 596
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 14.686
+    }
+  ],
+  "errors": []
+}

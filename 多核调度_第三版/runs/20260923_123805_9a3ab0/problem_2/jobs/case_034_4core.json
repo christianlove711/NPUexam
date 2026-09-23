@@ -1,0 +1,194 @@
+{
+  "case": "case_034",
+  "cores": 4,
+  "scene": "B",
+  "status": "ok",
+  "selected_source": "v2_reuse_87",
+  "selected": {
+    "makespan": 417648,
+    "added_copy_bytes": 17894260,
+    "scheduled_copy_bytes": 20174646,
+    "original_graph_copy_bytes": 2280386,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 523776,
+        "UB": 106496
+      },
+      "1": {
+        "L1": 523776,
+        "UB": 131072
+      },
+      "2": {
+        "L1": 214016,
+        "UB": 131072
+      },
+      "3": {
+        "L1": 392192,
+        "UB": 98304
+      }
+    },
+    "evaluation_seconds": 0.704
+  },
+  "v1": {
+    "makespan": 490435,
+    "added_copy_bytes": 18717728,
+    "scheduled_copy_bytes": 20998114,
+    "original_graph_copy_bytes": 2280386,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 208896,
+        "UB": 123008
+      },
+      "1": {
+        "L1": 356352,
+        "UB": 32768
+      },
+      "2": {
+        "L1": 93184,
+        "UB": 32768
+      },
+      "3": {
+        "L1": 523776,
+        "UB": 131072
+      }
+    },
+    "evaluation_seconds": 0.746
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 0.431,
+  "total_seconds": 3.526,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 490435,
+      "added_copy_bytes": 18717728,
+      "scheduled_copy_bytes": 20998114,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 208896,
+          "UB": 123008
+        },
+        "1": {
+          "L1": 356352,
+          "UB": 32768
+        },
+        "2": {
+          "L1": 93184,
+          "UB": 32768
+        },
+        "3": {
+          "L1": 523776,
+          "UB": 131072
+        }
+      },
+      "evaluation_seconds": 0.746
+    },
+    {
+      "label": "v2_reuse_87",
+      "makespan": 417648,
+      "added_copy_bytes": 17894260,
+      "scheduled_copy_bytes": 20174646,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 106496
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 131072
+        },
+        "2": {
+          "L1": 214016,
+          "UB": 131072
+        },
+        "3": {
+          "L1": 392192,
+          "UB": 98304
+        }
+      },
+      "evaluation_seconds": 0.704
+    },
+    {
+      "label": "v2_reuse_134",
+      "makespan": 434651,
+      "added_copy_bytes": 18494660,
+      "scheduled_copy_bytes": 20775046,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 524288,
+          "UB": 130048
+        },
+        "1": {
+          "L1": 227328,
+          "UB": 32768
+        },
+        "2": {
+          "L1": 162816,
+          "UB": 131072
+        },
+        "3": {
+          "L1": 89600,
+          "UB": 131072
+        }
+      },
+      "evaluation_seconds": 0.726
+    },
+    {
+      "label": "v3_idblock_32",
+      "makespan": 541853,
+      "added_copy_bytes": 2233360,
+      "scheduled_copy_bytes": 4513746,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 422912,
+          "UB": 19456
+        },
+        "1": {
+          "L1": 260096,
+          "UB": 16516
+        },
+        "2": {
+          "L1": 218112,
+          "UB": 81924
+        },
+        "3": {
+          "L1": 55296,
+          "UB": 122894
+        }
+      },
+      "evaluation_seconds": 0.388
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 713787,
+      "added_copy_bytes": 1628372,
+      "scheduled_copy_bytes": 3908758,
+      "original_graph_copy_bytes": 2280386,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 524288,
+          "UB": 122890
+        },
+        "1": {
+          "L1": 91136,
+          "UB": 0
+        },
+        "2": {
+          "L1": 35840,
+          "UB": 66
+        },
+        "3": {
+          "L1": 0,
+          "UB": 81924
+        }
+      },
+      "evaluation_seconds": 0.436
+    }
+  ],
+  "errors": []
+}

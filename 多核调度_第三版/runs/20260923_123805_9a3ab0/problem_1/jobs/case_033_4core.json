@@ -1,0 +1,194 @@
+{
+  "case": "case_033",
+  "cores": 4,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v2_memory_80",
+  "selected": {
+    "makespan": 866215,
+    "added_copy_bytes": 42881856,
+    "scheduled_copy_bytes": 45854766,
+    "original_graph_copy_bytes": 2972910,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 165888,
+        "UB": 40960
+      },
+      "1": {
+        "L1": 135168,
+        "UB": 35840
+      },
+      "2": {
+        "L1": 135168,
+        "UB": 45058
+      },
+      "3": {
+        "L1": 153600,
+        "UB": 77826
+      }
+    },
+    "evaluation_seconds": 1.076
+  },
+  "v1": {
+    "makespan": 1026743,
+    "added_copy_bytes": 44434596,
+    "scheduled_copy_bytes": 47407506,
+    "original_graph_copy_bytes": 2972910,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 147456,
+        "UB": 61442
+      },
+      "1": {
+        "L1": 135168,
+        "UB": 20480
+      },
+      "2": {
+        "L1": 190464,
+        "UB": 0
+      },
+      "3": {
+        "L1": 284160,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 1.088
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 0.382,
+  "total_seconds": 4.892,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 1026743,
+      "added_copy_bytes": 44434596,
+      "scheduled_copy_bytes": 47407506,
+      "original_graph_copy_bytes": 2972910,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 147456,
+          "UB": 61442
+        },
+        "1": {
+          "L1": 135168,
+          "UB": 20480
+        },
+        "2": {
+          "L1": 190464,
+          "UB": 0
+        },
+        "3": {
+          "L1": 284160,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 1.088
+    },
+    {
+      "label": "v2_memory_80",
+      "makespan": 866215,
+      "added_copy_bytes": 42881856,
+      "scheduled_copy_bytes": 45854766,
+      "original_graph_copy_bytes": 2972910,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 165888,
+          "UB": 40960
+        },
+        "1": {
+          "L1": 135168,
+          "UB": 35840
+        },
+        "2": {
+          "L1": 135168,
+          "UB": 45058
+        },
+        "3": {
+          "L1": 153600,
+          "UB": 77826
+        }
+      },
+      "evaluation_seconds": 1.076
+    },
+    {
+      "label": "v2_reuse_80",
+      "makespan": 880320,
+      "added_copy_bytes": 45666164,
+      "scheduled_copy_bytes": 48639074,
+      "original_graph_copy_bytes": 2972910,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 135168,
+          "UB": 2052
+        },
+        "1": {
+          "L1": 135168,
+          "UB": 40960
+        },
+        "2": {
+          "L1": 170496,
+          "UB": 0
+        },
+        "3": {
+          "L1": 135168,
+          "UB": 57344
+        }
+      },
+      "evaluation_seconds": 1.142
+    },
+    {
+      "label": "v3_idblock_32",
+      "makespan": 1123847,
+      "added_copy_bytes": 27562998,
+      "scheduled_copy_bytes": 30535908,
+      "original_graph_copy_bytes": 2972910,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 65536,
+          "UB": 29696
+        },
+        "1": {
+          "L1": 65536,
+          "UB": 258
+        },
+        "2": {
+          "L1": 59904,
+          "UB": 40964
+        },
+        "3": {
+          "L1": 43008,
+          "UB": 130
+        }
+      },
+      "evaluation_seconds": 0.67
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 1771031,
+      "added_copy_bytes": 13952220,
+      "scheduled_copy_bytes": 16925130,
+      "original_graph_copy_bytes": 2972910,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 173568,
+          "UB": 40964
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.447
+    }
+  ],
+  "errors": []
+}

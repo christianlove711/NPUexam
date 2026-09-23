@@ -1,0 +1,270 @@
+{
+  "case": "case_007",
+  "cores": 4,
+  "scene": "L2",
+  "status": "ok",
+  "selected_source": "paired_b_plan",
+  "selected": {
+    "makespan": 256170,
+    "added_copy_bytes": 82944,
+    "scheduled_copy_bytes": 1815552,
+    "original_graph_copy_bytes": 1732608,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 35328,
+        "UB": 6144
+      },
+      "1": {
+        "L1": 35328,
+        "UB": 6144
+      },
+      "2": {
+        "L1": 35328,
+        "UB": 6144
+      },
+      "3": {
+        "L1": 35328,
+        "UB": 6144
+      }
+    },
+    "cache_hit_rate": 0.0,
+    "cache_hit_bytes": 0,
+    "cache_miss_bytes": 963072,
+    "evaluation_seconds": 0.36
+  },
+  "v1": {
+    "makespan": 445615,
+    "added_copy_bytes": 15997440,
+    "scheduled_copy_bytes": 17730048,
+    "original_graph_copy_bytes": 1732608,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 523776,
+        "UB": 129024
+      },
+      "1": {
+        "L1": 523776,
+        "UB": 129024
+      },
+      "2": {
+        "L1": 488448,
+        "UB": 129024
+      },
+      "3": {
+        "L1": 523776,
+        "UB": 129024
+      }
+    },
+    "cache_hit_rate": 0.09594272076372315,
+    "cache_hit_bytes": 926208,
+    "cache_miss_bytes": 8727552,
+    "evaluation_seconds": 1.043
+  },
+  "paired": {
+    "no_l2": {
+      "makespan": 256170,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "evaluation_seconds": 0.37
+    },
+    "with_l2": {
+      "makespan": 256170,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "cache_hit_rate": 0.0,
+      "cache_hit_bytes": 0,
+      "cache_miss_bytes": 963072,
+      "evaluation_seconds": 0.36
+    },
+    "cache_speedup": 1.0
+  },
+  "b_plan_sha256": "369316c29a5518ab6a2963e418c1fb5fa90682dc673290bc0b3db1a44531e423",
+  "generation_seconds": null,
+  "total_seconds": 1.139,
+  "evaluations": [
+    {
+      "label": "v3_seed",
+      "makespan": 292650,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "cache_hit_rate": 0.0,
+      "cache_hit_bytes": 0,
+      "cache_miss_bytes": 963072,
+      "evaluation_seconds": 0.337
+    },
+    {
+      "label": "paired_with_l2",
+      "makespan": 256170,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "cache_hit_rate": 0.0,
+      "cache_hit_bytes": 0,
+      "cache_miss_bytes": 963072,
+      "evaluation_seconds": 0.36
+    },
+    {
+      "label": "paired_no_l2",
+      "makespan": 256170,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "evaluation_seconds": 0.37
+    },
+    {
+      "label": "v4_idblock_4",
+      "makespan": 256196,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "cache_hit_rate": 0.0,
+      "cache_hit_bytes": 0,
+      "cache_miss_bytes": 963072,
+      "evaluation_seconds": 0.371
+    },
+    {
+      "label": "v4_idblock_8",
+      "makespan": 263466,
+      "added_copy_bytes": 82944,
+      "scheduled_copy_bytes": 1815552,
+      "original_graph_copy_bytes": 1732608,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "1": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "2": {
+          "L1": 35328,
+          "UB": 6144
+        },
+        "3": {
+          "L1": 35328,
+          "UB": 6144
+        }
+      },
+      "cache_hit_rate": 0.0,
+      "cache_hit_bytes": 0,
+      "cache_miss_bytes": 963072,
+      "evaluation_seconds": 0.333
+    }
+  ],
+  "errors": [],
+  "v3_makespan": 292650,
+  "seed_job_sha256": "141eaa6b9d7e49f81012886f6668c1d61c67afaf7d6999d14295bb5cbfce4a85",
+  "seed_plan_sha256": "dd777f6a6dd6199fad7d73953630758b4299a11c95b02d8b0664517d33dabfb3"
+}

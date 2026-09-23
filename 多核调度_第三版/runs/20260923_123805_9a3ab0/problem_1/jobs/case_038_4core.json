@@ -1,0 +1,194 @@
+{
+  "case": "case_038",
+  "cores": 4,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v2_memory_137",
+  "selected": {
+    "makespan": 738877,
+    "added_copy_bytes": 33970828,
+    "scheduled_copy_bytes": 36773778,
+    "original_graph_copy_bytes": 2802950,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 168960,
+        "UB": 24576
+      },
+      "1": {
+        "L1": 162816,
+        "UB": 0
+      },
+      "2": {
+        "L1": 190464,
+        "UB": 40960
+      },
+      "3": {
+        "L1": 122880,
+        "UB": 28672
+      }
+    },
+    "evaluation_seconds": 2.221
+  },
+  "v1": {
+    "makespan": 1042217,
+    "added_copy_bytes": 33993696,
+    "scheduled_copy_bytes": 36796646,
+    "original_graph_copy_bytes": 2802950,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 241152,
+        "UB": 38912
+      },
+      "1": {
+        "L1": 236544,
+        "UB": 34816
+      },
+      "2": {
+        "L1": 273408,
+        "UB": 24576
+      },
+      "3": {
+        "L1": 210432,
+        "UB": 20480
+      }
+    },
+    "evaluation_seconds": 2.543
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 0.709,
+  "total_seconds": 9.826,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 1042217,
+      "added_copy_bytes": 33993696,
+      "scheduled_copy_bytes": 36796646,
+      "original_graph_copy_bytes": 2802950,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 241152,
+          "UB": 38912
+        },
+        "1": {
+          "L1": 236544,
+          "UB": 34816
+        },
+        "2": {
+          "L1": 273408,
+          "UB": 24576
+        },
+        "3": {
+          "L1": 210432,
+          "UB": 20480
+        }
+      },
+      "evaluation_seconds": 2.543
+    },
+    {
+      "label": "v2_reuse_137",
+      "makespan": 789578,
+      "added_copy_bytes": 35715788,
+      "scheduled_copy_bytes": 38518738,
+      "original_graph_copy_bytes": 2802950,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 215040,
+          "UB": 65536
+        },
+        "1": {
+          "L1": 122880,
+          "UB": 32768
+        },
+        "2": {
+          "L1": 162816,
+          "UB": 24576
+        },
+        "3": {
+          "L1": 208896,
+          "UB": 20480
+        }
+      },
+      "evaluation_seconds": 2.429
+    },
+    {
+      "label": "v2_memory_137",
+      "makespan": 738877,
+      "added_copy_bytes": 33970828,
+      "scheduled_copy_bytes": 36773778,
+      "original_graph_copy_bytes": 2802950,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 168960,
+          "UB": 24576
+        },
+        "1": {
+          "L1": 162816,
+          "UB": 0
+        },
+        "2": {
+          "L1": 190464,
+          "UB": 40960
+        },
+        "3": {
+          "L1": 122880,
+          "UB": 28672
+        }
+      },
+      "evaluation_seconds": 2.221
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 1366727,
+      "added_copy_bytes": 14260128,
+      "scheduled_copy_bytes": 17063078,
+      "original_graph_copy_bytes": 2802950,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 112128,
+          "UB": 36864
+        },
+        "1": {
+          "L1": 0,
+          "UB": 8
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.829
+    },
+    {
+      "label": "v3_idblock_512",
+      "makespan": 1368839,
+      "added_copy_bytes": 8013200,
+      "scheduled_copy_bytes": 10816150,
+      "original_graph_copy_bytes": 2802950,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 36864
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.95
+    }
+  ],
+  "errors": []
+}

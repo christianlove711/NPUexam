@@ -7,7 +7,6 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
-import os
 import shutil
 import time
 from concurrent.futures import ProcessPoolExecutor, as_completed
@@ -21,9 +20,7 @@ from run_all import summarize
 from verify_run import validate
 
 ROOT = Path(__file__).resolve().parent
-BASE = Path(os.environ.get(
-    'NPU_V3_BASE_RUN',
-    ATTACHMENT / '多核调度_第三版/runs/20260923_123805_9a3ab0'))
+BASE = ATTACHMENT / '多核调度_第三版/runs/20260923_123805_9a3ab0'
 FOLDERS = {'A': 'problem_1', 'B': 'problem_2', 'L2': 'problem_3'}
 
 
@@ -118,8 +115,6 @@ def main():
     parser.add_argument('--workers', type=int, default=4)
     parser.add_argument('--no-plots', action='store_true')
     args = parser.parse_args()
-    if not (BASE / 'manifest.json').is_file():
-        parser.error(f'Missing third-version baseline {BASE}. Set NPU_V3_BASE_RUN to a complete run created by run_all.py.')
     run = args.run or ROOT / 'runs' / datetime.now().strftime('%Y%m%d_%H%M%S_v4')
     old_manifest = read_json(BASE / 'manifest.json')
     cases = args.cases or old_manifest['cases']

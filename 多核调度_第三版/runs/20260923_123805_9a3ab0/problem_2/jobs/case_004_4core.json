@@ -1,0 +1,194 @@
+{
+  "case": "case_004",
+  "cores": 4,
+  "scene": "B",
+  "status": "ok",
+  "selected_source": "v3_idblock_32",
+  "selected": {
+    "makespan": 118300,
+    "added_copy_bytes": 331776,
+    "scheduled_copy_bytes": 1124352,
+    "original_graph_copy_bytes": 792576,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 125952,
+        "UB": 12288
+      },
+      "1": {
+        "L1": 125952,
+        "UB": 12288
+      },
+      "2": {
+        "L1": 125952,
+        "UB": 12288
+      },
+      "3": {
+        "L1": 125952,
+        "UB": 12288
+      }
+    },
+    "evaluation_seconds": 0.045
+  },
+  "v1": {
+    "makespan": 163537,
+    "added_copy_bytes": 6792192,
+    "scheduled_copy_bytes": 7584768,
+    "original_graph_copy_bytes": 792576,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 224256,
+        "UB": 86016
+      },
+      "1": {
+        "L1": 331776,
+        "UB": 129024
+      },
+      "2": {
+        "L1": 325632,
+        "UB": 129024
+      },
+      "3": {
+        "L1": 162816,
+        "UB": 76800
+      }
+    },
+    "evaluation_seconds": 0.13
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 0.08,
+  "total_seconds": 0.551,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 163537,
+      "added_copy_bytes": 6792192,
+      "scheduled_copy_bytes": 7584768,
+      "original_graph_copy_bytes": 792576,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 224256,
+          "UB": 86016
+        },
+        "1": {
+          "L1": 331776,
+          "UB": 129024
+        },
+        "2": {
+          "L1": 325632,
+          "UB": 129024
+        },
+        "3": {
+          "L1": 162816,
+          "UB": 76800
+        }
+      },
+      "evaluation_seconds": 0.13
+    },
+    {
+      "label": "v2_memory_24",
+      "makespan": 135576,
+      "added_copy_bytes": 4724736,
+      "scheduled_copy_bytes": 5517312,
+      "original_graph_copy_bytes": 792576,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 294912,
+          "UB": 122880
+        },
+        "1": {
+          "L1": 218112,
+          "UB": 18432
+        },
+        "2": {
+          "L1": 273408,
+          "UB": 129024
+        },
+        "3": {
+          "L1": 288768,
+          "UB": 129024
+        }
+      },
+      "evaluation_seconds": 0.098
+    },
+    {
+      "label": "v2_critical_24",
+      "makespan": 155615,
+      "added_copy_bytes": 6303744,
+      "scheduled_copy_bytes": 7096320,
+      "original_graph_copy_bytes": 792576,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 258048,
+          "UB": 129024
+        },
+        "1": {
+          "L1": 135168,
+          "UB": 27648
+        },
+        "2": {
+          "L1": 417792,
+          "UB": 129024
+        },
+        "3": {
+          "L1": 297984,
+          "UB": 129024
+        }
+      },
+      "evaluation_seconds": 0.128
+    },
+    {
+      "label": "v3_idblock_32",
+      "makespan": 118300,
+      "added_copy_bytes": 331776,
+      "scheduled_copy_bytes": 1124352,
+      "original_graph_copy_bytes": 792576,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 125952,
+          "UB": 12288
+        },
+        "1": {
+          "L1": 125952,
+          "UB": 12288
+        },
+        "2": {
+          "L1": 125952,
+          "UB": 12288
+        },
+        "3": {
+          "L1": 125952,
+          "UB": 12288
+        }
+      },
+      "evaluation_seconds": 0.045
+    },
+    {
+      "label": "v3_idblock_64",
+      "makespan": 227298,
+      "added_copy_bytes": 110592,
+      "scheduled_copy_bytes": 903168,
+      "original_graph_copy_bytes": 792576,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 125952,
+          "UB": 12288
+        },
+        "1": {
+          "L1": 125952,
+          "UB": 12288
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.049
+    }
+  ],
+  "errors": []
+}

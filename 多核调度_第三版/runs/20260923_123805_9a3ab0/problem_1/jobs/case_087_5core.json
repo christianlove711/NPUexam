@@ -1,0 +1,222 @@
+{
+  "case": "case_087",
+  "cores": 5,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v2_memory_332",
+  "selected": {
+    "makespan": 2429010,
+    "added_copy_bytes": 53311656,
+    "scheduled_copy_bytes": 59230754,
+    "original_graph_copy_bytes": 5919098,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 119808,
+        "UB": 79426
+      },
+      "1": {
+        "L1": 129024,
+        "UB": 0
+      },
+      "2": {
+        "L1": 119808,
+        "UB": 0
+      },
+      "3": {
+        "L1": 119808,
+        "UB": 0
+      },
+      "4": {
+        "L1": 195584,
+        "UB": 92176
+      }
+    },
+    "evaluation_seconds": 8.914
+  },
+  "v1": {
+    "makespan": 3887330,
+    "added_copy_bytes": 53195900,
+    "scheduled_copy_bytes": 59114998,
+    "original_graph_copy_bytes": 5919098,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 184320,
+        "UB": 109568
+      },
+      "1": {
+        "L1": 175104,
+        "UB": 0
+      },
+      "2": {
+        "L1": 0,
+        "UB": 0
+      },
+      "3": {
+        "L1": 0,
+        "UB": 0
+      },
+      "4": {
+        "L1": 0,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 8.0
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 2.932,
+  "total_seconds": 40.061,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 3887330,
+      "added_copy_bytes": 53195900,
+      "scheduled_copy_bytes": 59114998,
+      "original_graph_copy_bytes": 5919098,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 184320,
+          "UB": 109568
+        },
+        "1": {
+          "L1": 175104,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 8.0
+    },
+    {
+      "label": "v2_memory_332",
+      "makespan": 2429010,
+      "added_copy_bytes": 53311656,
+      "scheduled_copy_bytes": 59230754,
+      "original_graph_copy_bytes": 5919098,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 119808,
+          "UB": 79426
+        },
+        "1": {
+          "L1": 129024,
+          "UB": 0
+        },
+        "2": {
+          "L1": 119808,
+          "UB": 0
+        },
+        "3": {
+          "L1": 119808,
+          "UB": 0
+        },
+        "4": {
+          "L1": 195584,
+          "UB": 92176
+        }
+      },
+      "evaluation_seconds": 8.914
+    },
+    {
+      "label": "v2_memory_512",
+      "makespan": 2524727,
+      "added_copy_bytes": 47491656,
+      "scheduled_copy_bytes": 53410754,
+      "original_graph_copy_bytes": 5919098,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 133632,
+          "UB": 74786
+        },
+        "1": {
+          "L1": 170496,
+          "UB": 0
+        },
+        "2": {
+          "L1": 221568,
+          "UB": 111424
+        },
+        "3": {
+          "L1": 170496,
+          "UB": 100
+        },
+        "4": {
+          "L1": 119808,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 10.064
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 2982026,
+      "added_copy_bytes": 25130142,
+      "scheduled_copy_bytes": 31049240,
+      "original_graph_copy_bytes": 5919098,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 169152,
+          "UB": 36946
+        },
+        "1": {
+          "L1": 119808,
+          "UB": 96
+        },
+        "2": {
+          "L1": 4608,
+          "UB": 194
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 5.141
+    },
+    {
+      "label": "v3_idblock_512",
+      "makespan": 3966355,
+      "added_copy_bytes": 14549170,
+      "scheduled_copy_bytes": 20468268,
+      "original_graph_copy_bytes": 5919098,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 520704,
+          "UB": 57110
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        },
+        "2": {
+          "L1": 0,
+          "UB": 0
+        },
+        "3": {
+          "L1": 0,
+          "UB": 0
+        },
+        "4": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 4.086
+    }
+  ],
+  "errors": []
+}

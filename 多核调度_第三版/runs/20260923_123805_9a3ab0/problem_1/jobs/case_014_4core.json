@@ -1,0 +1,194 @@
+{
+  "case": "case_014",
+  "cores": 4,
+  "scene": "A",
+  "status": "ok",
+  "selected_source": "v3_idblock_128",
+  "selected": {
+    "makespan": 5413603,
+    "added_copy_bytes": 138508340,
+    "scheduled_copy_bytes": 148441080,
+    "original_graph_copy_bytes": 9932740,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 176112,
+        "UB": 194
+      },
+      "1": {
+        "L1": 112128,
+        "UB": 130
+      },
+      "2": {
+        "L1": 112128,
+        "UB": 130
+      },
+      "3": {
+        "L1": 156672,
+        "UB": 194
+      }
+    },
+    "evaluation_seconds": 10.023
+  },
+  "v1": {
+    "makespan": 9080575,
+    "added_copy_bytes": 395724492,
+    "scheduled_copy_bytes": 405657232,
+    "original_graph_copy_bytes": 9932740,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 523776,
+        "UB": 290
+      },
+      "1": {
+        "L1": 523776,
+        "UB": 256
+      },
+      "2": {
+        "L1": 522240,
+        "UB": 260
+      },
+      "3": {
+        "L1": 520704,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 62.56
+  },
+  "paired": null,
+  "b_plan_sha256": null,
+  "generation_seconds": 4.735,
+  "total_seconds": 179.009,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 9080575,
+      "added_copy_bytes": 395724492,
+      "scheduled_copy_bytes": 405657232,
+      "original_graph_copy_bytes": 9932740,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 523776,
+          "UB": 290
+        },
+        "1": {
+          "L1": 523776,
+          "UB": 256
+        },
+        "2": {
+          "L1": 522240,
+          "UB": 260
+        },
+        "3": {
+          "L1": 520704,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 62.56
+    },
+    {
+      "label": "v2_reuse_332",
+      "makespan": 8663164,
+      "added_copy_bytes": 406662656,
+      "scheduled_copy_bytes": 416595396,
+      "original_graph_copy_bytes": 9932740,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 518328,
+          "UB": 260
+        },
+        "1": {
+          "L1": 463872,
+          "UB": 260
+        },
+        "2": {
+          "L1": 439296,
+          "UB": 290
+        },
+        "3": {
+          "L1": 519168,
+          "UB": 260
+        }
+      },
+      "evaluation_seconds": 49.481
+    },
+    {
+      "label": "v2_critical_332",
+      "makespan": 8655843,
+      "added_copy_bytes": 406776320,
+      "scheduled_copy_bytes": 416709060,
+      "original_graph_copy_bytes": 9932740,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 518328,
+          "UB": 256
+        },
+        "1": {
+          "L1": 463872,
+          "UB": 290
+        },
+        "2": {
+          "L1": 439296,
+          "UB": 260
+        },
+        "3": {
+          "L1": 519168,
+          "UB": 256
+        }
+      },
+      "evaluation_seconds": 42.051
+    },
+    {
+      "label": "v3_idblock_128",
+      "makespan": 5413603,
+      "added_copy_bytes": 138508340,
+      "scheduled_copy_bytes": 148441080,
+      "original_graph_copy_bytes": 9932740,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 176112,
+          "UB": 194
+        },
+        "1": {
+          "L1": 112128,
+          "UB": 130
+        },
+        "2": {
+          "L1": 112128,
+          "UB": 130
+        },
+        "3": {
+          "L1": 156672,
+          "UB": 194
+        }
+      },
+      "evaluation_seconds": 10.023
+    },
+    {
+      "label": "v3_idblock_512",
+      "makespan": 15606937,
+      "added_copy_bytes": 98290324,
+      "scheduled_copy_bytes": 108223064,
+      "original_graph_copy_bytes": 9932740,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 524016,
+          "UB": 130
+        },
+        "1": {
+          "L1": 520704,
+          "UB": 98
+        },
+        "2": {
+          "L1": 523776,
+          "UB": 130
+        },
+        "3": {
+          "L1": 520704,
+          "UB": 130
+        }
+      },
+      "evaluation_seconds": 8.8
+    }
+  ],
+  "errors": []
+}
