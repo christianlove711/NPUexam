@@ -1,0 +1,202 @@
+"""Budgeted, multi-start search guided by official timeline diagnostics.
+
+Experimental module. The official evaluator still decides legality and score.
+"""
+from __future__ import annotations
+
+import copy
+import math
+from collections import defaultdict
+
+from official import attempt, canonical_hash, validate_candidate_structure, score
+from solver import initial_candidates, neighbors, idblock_candidates, refinement_sizes
+
+
+def guided_neighbors(graph, plan, scene, diagnostics):
+    """Interleave move types and prioritize late, busy parts of the real schedule."""
+    base = list(neighbors(graph, plan, scene, limit=128))
+    core_end = diagnostics.get("core_end", [])
+    late = diagnostics.get("late_subgraphs", [])
+    late_rank = {sg: rank for rank, sg in enumerate(late)}
+    groups = defaultdict(list)
+
+    def put(label, candidate):
+        kind = label.split("_", 1)[0]
+        if kind not in {"move", "split", "splitmove", "merge", "swap"}:
+            return
+        parts = label.split("_")
+        try:
+            sg = int(parts[1])
+        except (IndexError, ValueError):
+            sg = -1
+        priority = late_rank.get(sg, 1000)
+        if kind in {"move", "splitmove"} and sg >= 0:
+            source = next((c for c, row in enumerate(plan["core_schedules"])
+                           if sg in row), None)
+            moving_sg = int(parts[2]) if kind == "splitmove" else sg
+            target = next((c for c, row in enumerate(candidate["core_schedules"])
+                           if moving_sg in row), None)
+            if source is not None and target is not None and source != target:
+                gap = core_end[target] - core_end[source]
+            else:
+                gap = 0
+        else:
+            gap = 0
+        groups[kind].append(((priority, gap, label), label, candidate))
+
+    for label, candidate in base:
+        put(label, candidate)
+        if not label.startswith("split_"):
+            continue
+        # A neutral split on the source core can unlock useful parallelism only
+        # if the new piece is moved in the same neighborhood step.
+        original_sg = int(label.split("_")[1])
+        sg = max(candidate["node_to_subgraph"].values())
+        source = next(c for c, row in enumerate(candidate["core_schedules"]) if sg in row)
+        targets = sorted((c for c in range(len(candidate["core_schedules"])) if c != source),
+                         key=lambda c: (core_end[c] if c < len(core_end) else 0, c))[:2]
+        for target in targets:
+            for position in dict.fromkeys((0, len(candidate["core_schedules"][target]) // 2,
+                                           len(candidate["core_schedules"][target]))):
+                combined = {"node_to_subgraph": candidate["node_to_subgraph"],
+                            "core_schedules": copy.deepcopy(candidate["core_schedules"])}
+                combined["core_schedules"][source].remove(sg)
+                combined["core_schedules"][target].insert(position, sg)
+                put(f"splitmove_{original_sg}_{sg}_{target}_{position}", combined)
+
+    order = (("merge", "move", "splitmove", "swap", "split") if scene == "A" else
+             ("move", "splitmove", "merge", "swap", "split"))
+    for kind in groups:
+        groups[kind].sort(key=lambda item: item[0])
+    index = {kind: 0 for kind in order}
+    while any(index[kind] < len(groups[kind]) for kind in order):
+        for kind in order:
+            if index[kind] < len(groups[kind]):
+                _, label, candidate = groups[kind][index[kind]]
+                index[kind] += 1
+                yield label, candidate
+
+
+def search(graph, cores, scene, config, budget, extras=(), preevaluated=()):
+    evaluations, errors, leaders, seen = [], [], [], set()
+    counts = {"attempted_candidates": 0, "official_evaluations": 0,
+              "static_rejected": 0, "official_valid": 0,
+              "official_invalid": 0}
+
+    def add(label, plan, metrics=None):
+        nonlocal counts
+        # Historical metrics are never trusted for selection; every distinct
+        # seed is rescored with the current official evaluator.
+        metrics = None
+        digest = canonical_hash(plan)
+        if digest in seen:
+            return None
+        seen.add(digest)
+        counts["attempted_candidates"] += 1
+        if metrics is None:
+            # Static rejects are recorded separately and do not consume an
+            # official evaluator call. Every actual call, including a failed
+            # call, does consume the official-evaluation budget.
+            try:
+                validate_candidate_structure(graph, plan, scene)
+            except Exception as exc:
+                counts["static_rejected"] += 1
+                errors.append({"label": label, "error": f"{type(exc).__name__}: {exc}"})
+                return None
+            if counts["official_evaluations"] >= budget:
+                return None
+            counts["official_evaluations"] += 1
+            metrics = attempt(graph, plan, scene, config, label, evaluations, errors)
+            if metrics:
+                evaluations[-1]["plan_hash"] = digest
+                counts["official_valid"] += 1
+            else:
+                counts["official_invalid"] += 1
+        if metrics:
+            item = (score(metrics), label, plan, metrics)
+            leaders.append(item)
+            leaders.sort(key=lambda row: (row[0], row[1]))
+            del leaders[8:]
+            return item
+        return None
+
+    for label, plan, _metrics in preevaluated:
+        add(label, plan)
+    for label, plan in extras:
+        add(label, plan)
+    # On large graphs, spend a deliberate first tranche on the coarse grid,
+    # then refine only around the best official-scored coarse grain.
+    operation_count = sum(op["op"] not in {"COPY_IN", "COPY_OUT"}
+                         for op in graph["ops"])
+    if operation_count > 5000:
+        coarse = list(idblock_candidates(graph, cores, (4, 16, 48, 192, 768)))
+        coarse_scored = []
+        for label, plan in coarse:
+            if counts["official_evaluations"] >= budget:
+                break
+            item = add(f"coarse_{label}", plan)
+            if item:
+                coarse_scored.append(item)
+        if coarse_scored and counts["official_evaluations"] < budget:
+            winner = min(coarse_scored, key=lambda item: (item[0], item[1]))
+            grain = int(winner[1].rsplit("_", 1)[1])
+            refined = list(idblock_candidates(graph, cores, refinement_sizes(grain)))
+            for label, plan in refined:
+                if counts["official_evaluations"] >= budget:
+                    break
+                add(f"refine_{label}", plan)
+    try:
+        for label, plan in initial_candidates(graph, cores, scene, config):
+            if counts["official_evaluations"] >= budget:
+                break
+            add(label, plan)
+    except Exception as exc:
+        errors.append({"label": "initial_generation", "error": f"{type(exc).__name__}: {exc}"})
+    if not leaders:
+        raise RuntimeError(f"No official-valid {scene} plan: {errors[:10]}")
+
+    # Each start keeps its own current score. One start may improve locally
+    # before surpassing the other start's global best.
+    starts = [{"current": item, "stagnation": 0, "active": True}
+              for item in leaders[:2]]
+    rounds = 0
+    while (counts["official_evaluations"] < budget and
+           any(state["active"] for state in starts) and rounds < 6):
+        rounds += 1
+        for state in starts:
+            if counts["official_evaluations"] >= budget or not state["active"]:
+                continue
+            current = state["current"]
+            remaining_starts = sum(item["active"] for item in starts)
+            quota = min(16, max(4, math.ceil((budget - counts["official_evaluations"]) / max(remaining_starts * 2, 1))))
+            tried = 0
+            best_local = current
+            mild_perturbation = None
+            try:
+                for move_label, candidate in guided_neighbors(
+                        graph, current[2], scene, current[3].get("diagnostics", {})):
+                    if tried >= quota or counts["official_evaluations"] >= budget:
+                        break
+                    before_calls = counts["official_evaluations"]
+                    item = add(f"round{rounds}_{current[1]}_{move_label}", candidate)
+                    if counts["official_evaluations"] == before_calls:
+                        continue
+                    tried += 1
+                    if item and item[0] < best_local[0]:
+                        best_local = item
+                    elif item and item[0][0] <= current[0][0] * 1.005:
+                        if mild_perturbation is None or item[0] < mild_perturbation[0]:
+                            mild_perturbation = item
+            except Exception as exc:
+                errors.append({"label": f"round{rounds}_{current[1]}",
+                               "error": f"{type(exc).__name__}: {exc}"})
+            if best_local[0] < current[0]:
+                state["current"] = best_local
+                state["stagnation"] = 0
+            elif state["stagnation"] == 0 and mild_perturbation:
+                state["current"] = mild_perturbation
+                state["stagnation"] = 1
+            else:
+                state["active"] = False
+    leaders.sort(key=lambda item: (item[0], item[1]))
+    return leaders[0], leaders[:4], evaluations, errors, counts
