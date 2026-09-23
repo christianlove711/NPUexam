@@ -6,22 +6,24 @@ alone determine feasibility, Makespan, movement, and Cache statistics.
 from __future__ import annotations
 
 import copy
-import sys
 from collections import defaultdict
-from pathlib import Path
 
-ROOT = Path(__file__).resolve().parent
-V4 = ROOT.parent / "多核调度_第四版"
-if str(V4) not in sys.path:
-    sys.path.insert(0, str(V4))
-
-from solver_v2 import generate_candidates  # noqa: E402
-from solver_v4 import candidates as idblock_candidates  # noqa: E402
-from stub_multicore_cut_and_schedule import (  # noqa: E402
+from partition import generate_candidates
+from fixed import _minimum_id_topological_order, _one_plan
+from official import derive_multicore_plan
+from stub_multicore_cut_and_schedule import (
     _build_op_adjacency, _contract_excluded_copy_nodes,
-    derive_multicore_plan,
 )
-from solver_idblocks import _minimum_id_topological_order  # noqa: E402
+
+
+def idblock_candidates(graph, cores, sizes):
+    ops = {op["id"]: op for op in graph["ops"]
+           if op["op"] not in {"COPY_IN", "COPY_OUT"}}
+    _, full = _build_op_adjacency(graph)
+    preds, succs = _contract_excluded_copy_nodes(sorted(ops), full)
+    order = _minimum_id_topological_order(ops, preds, succs)
+    for size in dict.fromkeys(min(size, max(1, len(order))) for size in sizes):
+        yield f"fixed_{size}", _one_plan(graph, cores, size, ops, order, succs)
 
 
 def initial_candidates(graph, cores, scene, config):
@@ -79,6 +81,7 @@ def neighbors(graph, plan, scene, limit=32):
     # this can expose a different core assignment without adding a Task.
     large = sorted(groups, key=lambda sg: (-work[sg], -len(groups[sg]), sg))[:6]
     new_id = max(groups) + 1
+    split_count = 0
     for sg in large:
         if len(groups[sg]) < 4:
             continue
@@ -95,13 +98,17 @@ def neighbors(graph, plan, scene, limit=32):
             rows[source_core].insert(rows[source_core].index(sg) + 1, new_id)
             yield candidate(f"split_{sg}_{fraction}", new_mapping, rows)
             emitted += 1
+            split_count += 1
             if emitted >= limit:
                 return
+            if split_count >= 12:
+                break
 
     # Move costly work out of loaded cores, including the one-core plans that
     # remain common in scene A. Try early and late legal insertion positions.
     movable = sorted(groups, key=lambda sg: (-loads[view["core_by_subgraph"][sg]],
                                              -work[sg], sg))[:8]
+    move_count = 0
     for sg in movable:
         source_core = view["core_by_subgraph"][sg]
         targets = sorted((c for c in range(len(schedules)) if c != source_core),
@@ -114,8 +121,15 @@ def neighbors(graph, plan, scene, limit=32):
                 rows[target].insert(position, sg)
                 yield candidate(f"move_{sg}_{target}_{position}", dict(mapping), rows)
                 emitted += 1
+                move_count += 1
                 if emitted >= limit:
                     return
+                if move_count >= 16:
+                    break
+            if move_count >= 16:
+                break
+        if move_count >= 16:
+            break
 
     # Merge neighboring same-core Tasks to remove A's boundary copies and
     # activation waits. The official parser rejects a cyclic quotient graph.
@@ -132,3 +146,14 @@ def neighbors(graph, plan, scene, limit=32):
         emitted += 1
         if emitted >= limit:
             return
+
+    # Reorder independent Tasks on the same core. Validation rejects any
+    # quotient DAG or execution-order cycle introduced by the swap.
+    for core, row in enumerate(schedules):
+        for index in range(len(row) - 1):
+            rows = copy.deepcopy(schedules)
+            rows[core][index], rows[core][index + 1] = rows[core][index + 1], rows[core][index]
+            yield candidate(f"swap_{core}_{index}", dict(mapping), rows)
+            emitted += 1
+            if emitted >= limit:
+                return

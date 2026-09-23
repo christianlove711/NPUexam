@@ -6,7 +6,7 @@ import shutil
 from pathlib import Path
 
 from run import FOLDERS, validate
-from worker import read_json
+from official import read_json
 
 
 def export(run, destination):
