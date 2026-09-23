@@ -1,0 +1,101 @@
+{
+  "case": "case_035",
+  "cores": 2,
+  "scene": "B",
+  "status": "ok",
+  "selected_source": "v2_critical_512",
+  "selected": {
+    "makespan": 170752,
+    "added_copy_bytes": 72936,
+    "scheduled_copy_bytes": 483790,
+    "original_graph_copy_bytes": 410854,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 189472,
+        "UB": 130646
+      },
+      "1": {
+        "L1": 0,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 0.486
+  },
+  "v1": {
+    "makespan": 176020,
+    "added_copy_bytes": 262414,
+    "scheduled_copy_bytes": 673268,
+    "original_graph_copy_bytes": 410854,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 183328,
+        "UB": 131072
+      },
+      "1": {
+        "L1": 0,
+        "UB": 0
+      }
+    },
+    "evaluation_seconds": 0.407
+  },
+  "paired": null,
+  "generation_seconds": 0.364,
+  "total_seconds": 1.798,
+  "evaluations": [
+    {
+      "label": "v1",
+      "makespan": 176020,
+      "added_copy_bytes": 262414,
+      "scheduled_copy_bytes": 673268,
+      "original_graph_copy_bytes": 410854,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 183328,
+          "UB": 131072
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.407
+    },
+    {
+      "label": "v2_critical_512",
+      "makespan": 170752,
+      "added_copy_bytes": 72936,
+      "scheduled_copy_bytes": 483790,
+      "original_graph_copy_bytes": 410854,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 189472,
+          "UB": 130646
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.486
+    },
+    {
+      "label": "v2_memory_179",
+      "makespan": 171889,
+      "added_copy_bytes": 0,
+      "scheduled_copy_bytes": 410854,
+      "original_graph_copy_bytes": 410854,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 73728,
+          "UB": 95398
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.473
+    }
+  ],
+  "errors": []
+}

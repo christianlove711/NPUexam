@@ -1,0 +1,63 @@
+{
+  "case": "case_019",
+  "cores": 2,
+  "scene": "A",
+  "evaluations": [
+    {
+      "label": "migrate",
+      "makespan": 79370,
+      "added_copy_bytes": 1256064,
+      "scheduled_copy_bytes": 1443048,
+      "original_graph_copy_bytes": 186984,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 17152,
+          "UB": 24704
+        },
+        "1": {
+          "L1": 3072,
+          "UB": 4608
+        }
+      },
+      "evaluation_seconds": 0.084
+    },
+    {
+      "label": "merge",
+      "makespan": 78367,
+      "added_copy_bytes": 1233920,
+      "scheduled_copy_bytes": 1420904,
+      "original_graph_copy_bytes": 186984,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 17152,
+          "UB": 24704
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.146
+    },
+    {
+      "label": "split",
+      "makespan": 79966,
+      "added_copy_bytes": 1345152,
+      "scheduled_copy_bytes": 1532136,
+      "original_graph_copy_bytes": 186984,
+      "memory_peak_by_core": {
+        "0": {
+          "L1": 17152,
+          "UB": 24704
+        },
+        "1": {
+          "L1": 0,
+          "UB": 0
+        }
+      },
+      "evaluation_seconds": 0.083
+    }
+  ],
+  "errors": [],
+  "improved": true
+}
