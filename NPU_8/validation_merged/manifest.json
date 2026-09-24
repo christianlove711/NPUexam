@@ -1,0 +1,81 @@
+{
+  "algorithm": "NPU_8",
+  "machine": "merged",
+  "created_at": "2026-09-24T21:58:00.689679+08:00",
+  "cases": [
+    "case_001",
+    "case_071"
+  ],
+  "cores": [
+    5
+  ],
+  "scene_cases": {
+    "A": [
+      "case_001",
+      "case_071"
+    ],
+    "B": [
+      "case_001",
+      "case_071"
+    ],
+    "L2": [
+      "case_001",
+      "case_071"
+    ]
+  },
+  "small_budget": 48,
+  "large_budget": 48,
+  "config_sha256": "e167e70f700e2ea54731aac124444ea6ee7cdbf1decaa4832c9b1da9e6815a61",
+  "input_hashes": {
+    "case_001": "a634cd1151c0e918dd3a143eba421b88907f7f0334bfe6a5ca0412342307f09f",
+    "case_071": "437cc74cae9e0fc0cb89b05403c62062ceff8d5bc2224c8834c519e69524e897"
+  },
+  "source_hashes": {
+    "NPU_8\\affinity_a.py": "881f5a217402a782766b479703ce70a5a3dffbcd911c34ea0faf458ef932b2b3",
+    "NPU_8\\astra.py": "96c661b771347e51f6bc9dfd612a3d2ebfe33019682523e3451d1dd8af645da4",
+    "NPU_8\\export.py": "2a589ed37b33802ffe5628452f46468d37edf262a26731b3152bcae71b09efeb",
+    "NPU_8\\fixed.py": "65b85895af7af456564d0604195d4d140a73a95586b054ea27123a49a8ea9623",
+    "NPU_8\\graph.py": "5af3202d0e1018d960ddac52d9ac03a43fa2e156ab0d4463b7fa5e26a0ff86af",
+    "NPU_8\\merge_runs.py": "98a38a4cdf030d20ae3409243661a4f0e32ac29aed71ddb0c27ba0490b4b85ba",
+    "NPU_8\\official.py": "afe5d6e7a3c6cce3aa6ccf89444cc099711556a86ee113d5869da0fc6dcb8607",
+    "NPU_8\\partition.py": "6a39c3f1032ae2fc22cb4f5cc9c80e6ab34dcb5740271c4b02dcff77f2a93d4b",
+    "NPU_8\\refine.py": "5269575e5bceb66f85513afff9085187f2bc14f20ac9b6f59e7c749084f31a3a",
+    "NPU_8\\reports.py": "9ec3e4b468f3d2136f5863b1a50e8004b6eabe4cefd684ce3b1b3ea8fa50eae9",
+    "NPU_8\\run.py": "180ac05d246929a0fab29958d63bbd2cd5e54a094ba336806aeb92023f8282d6",
+    "NPU_8\\solve.py": "0b0fb563916a98641059bb9b3d638d1ce40d56ab8ff4cb37bc10e3f9f1e10263",
+    "NPU_8\\solver.py": "f0053e2e825efca937c948cd921ff852b7b2d7621acbec77a5a81474e37f95e5",
+    "NPU_8\\verify.py": "e5a9b15129d239149ca737d5f7cb28b10f7fba0ea7e0139f50611dae9585e406",
+    "code\\contest_io.py": "480babc95897d235ec7b68c8aae16aab2325e9f80c3b1b6a8422a94597d29114",
+    "code\\evaluation_validation.py": "cf61f162eb705ff54bb358df23bff5b44b610d32d6ddcb739a427f6dbaf70c68",
+    "code\\multicore_cut_evaluate_problem_1.py": "c7eccd466142fef10195fe35b3568149299c007abc7d25cbcca55f070c363824",
+    "code\\multicore_cut_evaluate_problem_2.py": "6e3b12dce47e27c3c28caf1df795db8ad434bfcf386dc8eccd7d8f8afb4a66d0",
+    "code\\multicore_cut_evaluate_problem_3.py": "acb5edcd312c754b93ae7fe9a947652dc69ae5800bb6acc6e8c4735dfc7f9e4d",
+    "code\\schedule_step1.py": "3463f21a4a2fd40514d542ca369af40d5d18976877b7307e69f1ab47ea9afbbc",
+    "code\\schedule_step2.py": "7071130b09d9da419ce1c9ad7dd41562c81a4f2cc538a029089bdd1f18b21ba8",
+    "code\\schedule_step3.py": "8d3f47bf71ad4873d6323bb8d00190a71ef90d0fdc772d317db8bea186cb0512",
+    "code\\singlecore_evaluate.py": "88d36f79171f20c218e47925951d9e839b78e1288b12aaf6107c097dcdf72d05",
+    "code\\stub_multicore_cut_and_schedule.py": "747e16353b639b42d1621fd6fcd114b35df1757e125f3ec009ebc8ab125d5c24"
+  },
+  "seed_runs": {
+    "reference": "C:\\Users\\chris\\Desktop\\NPUexam-1\\NPU_8\\reference"
+  },
+  "seed_hashes": {
+    "reference/problem_1/jobs/case_001_5core.json": "e36f5bab6ea3b93d80a434848f1e43420ff1c47cb856669db0b19891c7ee10a3",
+    "reference/problem_1/plans/case_001_5core.json": "811c489eb7d6113f0afaa4b601c2327b28ff85d87c97f113bb17239be950b2e6",
+    "reference/problem_1/jobs/case_071_5core.json": "02d764e2f6e812c42d7f346aede3ae8c42efc24721b1a1fd78589e0dc360036f",
+    "reference/problem_1/plans/case_071_5core.json": "082ea87ffb6b530af10d9a5a5eace98a648a5ee8d7df682a16d8aa1f48df26b5"
+  },
+  "status": "complete",
+  "workers": 2,
+  "timeout_minutes": 180,
+  "problem_1_complete": false,
+  "problem_2_complete": false,
+  "problem_3_complete": false,
+  "full_experiment_complete": false,
+  "finished_at": "2026-09-24T21:59:01.135788+08:00",
+  "process_failures": [],
+  "merged_from": [
+    "C:\\Users\\chris\\Desktop\\NPUexam-1\\NPU_8\\validation_machine1\\20260924_215800_8a3c35",
+    "C:\\Users\\chris\\Desktop\\NPUexam-1\\NPU_8\\validation_machine2\\20260924_215824_b233d6"
+  ]
+}
