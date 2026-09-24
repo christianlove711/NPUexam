@@ -408,6 +408,7 @@ def main(argv=None):
     parser.add_argument("--v5-run", type=Path, help="optional fifth-version seed run")
     parser.add_argument("--astra-run", type=Path, help="optional Astra seed run")
     parser.add_argument("--v6-run", type=Path, help="optional sixth-version seed run")
+    parser.add_argument("--v7-run", type=Path, help="optional verified seventh-version seed run")
     parser.add_argument("--_worker-run", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--_worker-case", help=argparse.SUPPRESS)
     parser.add_argument("--_worker-core", type=int, help=argparse.SUPPRESS)
@@ -418,7 +419,7 @@ def main(argv=None):
             print(singlecore(args._worker_run, args._worker_case))
         else:
             worker_seeds = {name: getattr(args, f"{name}_run")
-                            for name in ("v4", "v5", "astra", "v6")
+                            for name in ("v4", "v5", "astra", "v6", "v7")
                             if getattr(args, f"{name}_run") is not None}
             print(optimize(args._worker_run, args._worker_case, args._worker_core,
                            args.small_budget, args.large_budget, worker_seeds))
@@ -426,7 +427,7 @@ def main(argv=None):
     prior = read_json(args.run / "manifest.json") if args.run else None
     prior_seeds = prior.get("seed_runs", {}) if prior else {}
     seed_runs = {}
-    for name in ("v4", "v5", "astra", "v6"):
+    for name in ("v4", "v5", "astra", "v6", "v7"):
         supplied = getattr(args, f"{name}_run")
         path = supplied if supplied is not None else prior_seeds.get(name)
         if path:
