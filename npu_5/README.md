@@ -38,3 +38,42 @@ py -3.12 -m venv .venv
 `manifest.json` 的 `status=complete`、`reports/validation.json` 为 `ok`、`reports/failures.csv` 无数据行，才表示所选范围完成。只有 100 条单核基准、每问 400 条多核记录、完整 1～5 核图表都存在时，`full_experiment_complete` 才为 `true`。`--replay` 重算每问、每核数的代表方案，以及问题三固定 B 方案的 Cache 配对。导出格式如 `submission/problem_1/2core/case_001_multicore_res.json`，每个文件只有 `node_to_subgraph`、`core_schedules` 两字段。
 
 `reports/aggregate.csv` 与 `problem_*_speedup.png` 给出 1～5 核逐例等权平均加速比。各问 `summary.csv` 给出逐例 Makespan、额外搬运量；问题三还给出 Cache 配对 Makespan、命中率与同方案加速比。`problem_3_cache_gain.png` 单独显示纯 Cache 收益。
+
+## 只运行问题一
+
+问题一搜索先保留原有候选与局部搜索结果，再增加最多 16 次官方评估，优先合并通信量大的同核 Task，然后尝试迁核与拆分。如果最优方案未用满核心，或相对单核基准的加速比不超过 1.2，还会额外评估独立依赖分量分核方案。最后对每个 A 场景加入有限的图感知候选：按 DDR 大边界合并 Task，并在长图上融合无分叉、无汇合的直线链。旧最优始终保留；默认小图最多 96 次、大图最多 68 次官方候选评估。只跑问题一时，批量程序只计算单核基准及 A 场景，不运行 B／L2。全量运行在项目根目录执行：
+
+```powershell
+& "C:\Users\chris\miniconda3\envs\npu312\python.exe" -u .\npu_5\run.py --scene-a-only --workers 6
+```
+
+运行会打印 `RUN=...`。中断后把该路径填入 `--run` 即可续跑；`manifest.json` 中 `problem_1_complete=true` 表示 100 例、2～5 核全部完成。
+
+## 问题一的增量优化实验
+
+`improve_a.py` 读取第四版和第五版已经保存的问题一方案，先用官方评估器重算两个起点，再优先尝试合并同核 Task、迁移 Task、交换顺序和拆分。实验结果写入独立目录，不修改历史运行记录。`compose_a.py` 从两版与实验结果中按官方 Makespan 逐例择优，输出 400 个问题一方案及 `summary.csv`。此方法使用已知测试图上的历史结果；新图应运行 `solve.py` 搜索，不能直接套用历史方案。
+
+```powershell
+& "C:\Users\chris\miniconda3\envs\npu312\python.exe" .\npu_5\improve_a.py --cases case_093 case_078 case_022 case_007 --budget 20
+& "C:\Users\chris\miniconda3\envs\npu312\python.exe" .\npu_5\improve_a.py --cases case_084 case_036 --budget 60 --output .\npu_5\a_refinement_highspeed
+& "C:\Users\chris\miniconda3\envs\npu312\python.exe" .\npu_5\compose_a.py
+```
+
+生成方案位于 `npu_5/a_optimized/plans/`。例如五核第 84 例是 `case_084_5core.json`，提交官方评估器时可将其作为方案文件参数传入。`compose_a.py --verify` 可对选出的 400 个方案全部做官方重放，耗时较长。
+
+## 问题一的定向诊断与限额实验
+
+`diagnose_a.py` 只读取已保存的五核 job 和方案，不调用官方模拟器。输出每例的活跃核心、Task 数、搬运下界占比、候选成功/失败次数和耗时。瓶颈类别是诊断标签，不是全局最优性的证明。
+
+`target_a.py` 从一次已完成的问题一运行读取单核基准和已评估的最优方案；先核对图、配置、官方评估器源码及方案哈希，然后只评估新方案。默认策略尝试独立分量、单 Task 保底、粗粒度切分以及局部改动；不允许把种子方案覆盖为更差的结果。提交给模拟器前会筛掉 Task 顺序中的依赖环。每例使用 `--max-evaluations` 和 `--case-seconds` 限额；官方模拟在独立子进程中执行，到期可中止当前模拟并保留已知最好方案。时间限额涵盖搜索和评估；读取与检查种子文件在搜索计时前完成。新结果写入 `npu_5/targeted_runs/`，不会改动种子运行。
+
+另有两种定向实验策略：`--strategy affinity` 保留大张量依赖链、合并轻量归约链并对并行分支分组；`--strategy chains` 只融合无分叉、无汇合的直线依赖链。它们位于 `affinity_a.py`；默认 `run.py` 已接入有限候选，定向运行仍可单独设置更大的评估上限。新策略都通过图结构决定分组，不按 case 编号硬编码方案。
+
+在仓库根目录示例：
+
+```powershell
+& .\.venv\Scripts\python.exe .\npu_5\diagnose_a.py --run .\npu_5\runs\20260924_102338_e258fd --output .\npu_5\diagnostics\problem_1_20260924.csv
+& .\.venv\Scripts\python.exe -u .\npu_5\target_a.py --seed-run .\npu_5\runs\20260924_102338_e258fd --scene-a-only --cases case_016 case_022 case_024 case_049 case_051 case_084 --cores 5 --max-evaluations 8 --case-seconds 300
+```
+
+定向运行的 `manifest.json` 中 `problem_1_complete=false`，它只代表选定 case 的实验，不能替代 100 例、2～5 核的平均加速比。中断后用相同参数加 `--run <打印的 RUN 路径>` 续跑；源码、输入或限额改变时需新建运行。

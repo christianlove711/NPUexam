@@ -15,7 +15,8 @@ from pathlib import Path
 from official import (ROOT, CODE, DATA, atomic_json, read_json, file_hash,
                       canonical_hash, settings, evaluate, baseline, score, attempt,
                       derive_multicore_plan)
-from solver import initial_candidates, neighbors
+from solver import initial_candidates, neighbors, a_neighbors, component_candidates
+from affinity_a import affinity_candidates, chain_candidates
 
 FOLDERS = {"A": "problem_1", "B": "problem_2", "L2": "problem_3"}
 
@@ -50,9 +51,11 @@ def complete_job(run, case, cores, scene):
         return False
 
 
-def search(graph, cores, scene, config, budget, extras=(), preevaluated=()):
+def search(graph, cores, scene, config, budget, extras=(), preevaluated=(),
+           baseline_makespan=None):
     evaluations, errors, leaders, seen = [], [], [], set()
     calls = 0
+    limit = budget
 
     def add(label, plan, metrics=None):
         nonlocal calls
@@ -61,7 +64,7 @@ def search(graph, cores, scene, config, budget, extras=(), preevaluated=()):
             return
         seen.add(digest)
         if metrics is None:
-            if calls >= budget:
+            if calls >= limit:
                 return
             calls += 1
             metrics = attempt(graph, plan, scene, config, label, evaluations, errors)
@@ -102,19 +105,80 @@ def search(graph, cores, scene, config, budget, extras=(), preevaluated=()):
             if leaders[0][0] >= before:
                 break
             current = leaders[0][2]
+    if scene == "A":
+        # Keep the original search as an incumbent, then spend a small extra
+        # budget on coarsening. This can only improve the official score.
+        limit = budget + 16
+        for round_id in range(2):
+            if calls >= limit:
+                break
+            before = leaders[0][0]
+            current = leaders[0][2]
+            try:
+                for move_label, candidate in a_neighbors(graph, current, limit=24):
+                    if calls >= limit:
+                        break
+                    add(f"a_refine{round_id + 1}_{move_label}", candidate)
+            except Exception as exc:
+                errors.append({"label": "a_refinement", "error": f"{type(exc).__name__}: {exc}"})
+            if leaders[0][0] >= before:
+                break
+        active_cores = sum(bool(row) for row in leaders[0][2]["core_schedules"])
+        speedup = (baseline_makespan / leaders[0][3]["makespan"]
+                   if baseline_makespan else float("inf"))
+        if active_cores < cores or speedup <= 1.2:
+            # Preserve the prior winner and spend at most two further official
+            # evaluations on independent operation components.
+            limit = budget + 18
+            try:
+                for label, plan in component_candidates(graph, cores):
+                    if calls >= limit:
+                        break
+                    add(label, plan)
+            except Exception as exc:
+                errors.append({"label": "component_generation",
+                               "error": f"{type(exc).__name__}: {exc}"})
+        # Evaluate a small, deterministic set of graph-aware candidates.  The
+        # affinity route keeps high-volume DDR edges inside a Task; the chain
+        # route only fuses unbranched paths, so fork/join parallelism remains.
+        # These candidates are deliberately bounded and the incumbent remains
+        # eligible, which makes this safe for every case in a fresh run.
+        limit = budget + 24
+        noncopy = sum(op["op"] not in {"COPY_IN", "COPY_OUT"}
+                      for op in graph["ops"])
+        try:
+            affinity_limit = 3
+            for index, (label, plan) in enumerate(
+                    affinity_candidates(graph, cores, config)):
+                if calls >= limit or index >= affinity_limit:
+                    break
+                add(f"a_{label}", plan)
+            # Long task graphs benefit from chain fusion; short graphs are
+            # still allowed through when the incumbent is nearly serial.
+            if noncopy > 5000 or speedup <= 1.2 or active_cores < cores:
+                for index, (label, plan) in enumerate(
+                        chain_candidates(graph, cores, config)):
+                    if calls >= limit or index >= 2:
+                        break
+                    add(f"a_{label}", plan)
+        except Exception as exc:
+            errors.append({"label": "graph_aware_generation",
+                           "error": f"{type(exc).__name__}: {exc}"})
     return leaders[0], leaders, evaluations, errors, calls
 
 
-def optimize(run, case, cores, small_budget, large_budget):
+def optimize(run, case, cores, small_budget, large_budget, scenes=("A", "B", "L2")):
     run = Path(run)
-    if all(complete_job(run, case, cores, scene) for scene in FOLDERS):
+    if all(complete_job(run, case, cores, scene) for scene in scenes):
         return "cached"
     graph = read_json(DATA / f"{case}.json")
     config = settings()
     count = sum(op["op"] not in {"COPY_IN", "COPY_OUT"} for op in graph["ops"])
     budget = small_budget if count <= 5000 else large_budget
+    baseline_makespan = read_json(run / "baseline" / "jobs" /
+                                  f"{case}.json")["makespan"] if "A" in scenes else None
     winners, leaders_by_scene = {}, {}
-    for scene in FOLDERS:
+    for scene in scenes:
         if complete_job(run, case, cores, scene):
             job_path, plan_path = job_paths(run, case, cores, scene)
             job, plan = read_json(job_path), read_json(plan_path)
@@ -138,7 +202,8 @@ def optimize(run, case, cores, small_budget, large_budget):
             extras.extend((f"b_candidate_{label}", plan)
                           for _, label, plan, _ in leaders_by_scene["B"][:4])
         best, leaders, evaluations, errors, calls = search(
-            graph, cores, scene, config, budget, extras, preevaluated)
+            graph, cores, scene, config, budget, extras, preevaluated,
+            baseline_makespan if scene == "A" else None)
         if scene == "L2":
             evaluations.append({"label": "paired_no_l2", **paired["no_l2"]})
         row = {"case": case, "cores": cores, "scene": scene, "status": "ok",
@@ -147,7 +212,8 @@ def optimize(run, case, cores, small_budget, large_budget):
                "paired": paired, "b_plan_hash": b_hash,
                "total_seconds": round(time.perf_counter() - started, 3),
                "official_evaluations": calls + (1 if scene == "L2" else 0),
-               "budget": budget, "evaluations": evaluations, "errors": errors}
+               "budget": budget + (24 if scene == "A" else 0),
+               "evaluations": evaluations, "errors": errors}
         job_path, plan_path = job_paths(run, case, cores, scene)
         atomic_json(plan_path, best[2])
         atomic_json(job_path, row)
@@ -155,7 +221,7 @@ def optimize(run, case, cores, small_budget, large_budget):
     return "computed"
 
 
-def singlecore(run, case):
+def singlecore(run, case, scene_a_only=False):
     run = Path(run)
     path = run / "baseline" / "jobs" / f"{case}.json"
     if path.is_file():
@@ -167,19 +233,20 @@ def singlecore(run, case):
     graph, config = read_json(DATA / f"{case}.json"), settings()
     started = time.perf_counter()
     metric = baseline(graph, config)
-    # The official one-core plan permits pure B/L2 comparison at core count 1.
-    from singlecore_evaluate import build_singlecore_plan
-    plan = build_singlecore_plan(graph)
-    no_l2 = evaluate(graph, plan, "B", config)
-    with_l2 = evaluate(graph, plan, "L2", config)
-    row = {"case": case, "status": "ok", **metric,
-           "paired_no_l2_makespan": no_l2["makespan"],
-           "paired_with_l2_makespan": with_l2["makespan"],
-           "paired_no_l2_added_copy_bytes": no_l2["added_copy_bytes"],
-           "paired_with_l2_added_copy_bytes": with_l2["added_copy_bytes"],
-           "paired_l2_speedup": no_l2["makespan"] / with_l2["makespan"],
-           "paired_cache_hit_rate": with_l2["cache_hit_rate"],
-           "evaluation_seconds": round(time.perf_counter() - started, 3)}
+    row = {"case": case, "status": "ok", **metric}
+    if not scene_a_only:
+        # The official one-core plan permits pure B/L2 comparison at core count 1.
+        from singlecore_evaluate import build_singlecore_plan
+        plan = build_singlecore_plan(graph)
+        no_l2 = evaluate(graph, plan, "B", config)
+        with_l2 = evaluate(graph, plan, "L2", config)
+        row.update(paired_no_l2_makespan=no_l2["makespan"],
+                   paired_with_l2_makespan=with_l2["makespan"],
+                   paired_no_l2_added_copy_bytes=no_l2["added_copy_bytes"],
+                   paired_with_l2_added_copy_bytes=with_l2["added_copy_bytes"],
+                   paired_l2_speedup=no_l2["makespan"] / with_l2["makespan"],
+                   paired_cache_hit_rate=with_l2["cache_hit_rate"])
+    row["evaluation_seconds"] = round(time.perf_counter() - started, 3)
     atomic_json(path, row)
     return "computed"
 
@@ -192,7 +259,7 @@ def write_csv(path, rows, fields):
         writer.writerows(rows)
 
 
-def summarize(run, cases, cores):
+def summarize(run, cases, cores, scenes=("A", "B", "L2")):
     run = Path(run)
     failures, baselines, summaries = [], [], {}
     for case in cases:
@@ -209,7 +276,8 @@ def summarize(run, cases, cores):
                "paired_with_l2_added_copy_bytes", "paired_l2_speedup",
                "paired_cache_hit_rate", "evaluation_seconds"])
     one = {row["case"]: row["makespan"] for row in baselines}
-    for scene, folder in FOLDERS.items():
+    for scene in scenes:
+        folder = FOLDERS[scene]
         rows = []
         for case in cases:
             for count in cores:
@@ -268,6 +336,7 @@ def validate(run, replay=False):
     manifest = read_json(run / "manifest.json")
     issues, checked = [], 0
     config = settings() if replay else None
+    scenes = manifest.get("scenes", list(FOLDERS))
     for case in manifest["cases"]:
         try:
             baseline_row = read_json(run / "baseline" / "jobs" / f"{case}.json")
@@ -278,7 +347,7 @@ def validate(run, replay=False):
         graph = read_json(DATA / f"{case}.json")
         for cores in manifest["cores"]:
             found = {}
-            for scene in FOLDERS:
+            for scene in scenes:
                 try:
                     job_path, plan_path = job_paths(run, case, cores, scene)
                     job, plan = read_json(job_path), read_json(plan_path)
@@ -316,7 +385,8 @@ def validate(run, replay=False):
             "checked_plans": checked, "replayed": checked if replay else 0}
 
 
-def run_tasks(run, tasks, workers, timeout_minutes, budgets, baseline_phase=False):
+def run_tasks(run, tasks, workers, timeout_minutes, budgets, baseline_phase=False,
+              scene_a_only=False):
     # Process isolation bounds memory leaks and permits hard wall-time limits.
     pending, active, failures = list(tasks), {}, []
     total, done = len(pending), 0
@@ -329,6 +399,8 @@ def run_tasks(run, tasks, workers, timeout_minutes, budgets, baseline_phase=Fals
                        "--_worker-case", case, "--small-budget", str(budgets[0]),
                        "--large-budget", str(budgets[1])]
                 cmd += ["--_worker-singlecore"] if baseline_phase else ["--_worker-core", str(cores)]
+                if scene_a_only:
+                    cmd.append("--_worker-scene-a-only")
                 process = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
                                            text=True, encoding="utf-8", errors="replace", env=env)
                 active[process] = (case, cores, time.monotonic())
@@ -368,19 +440,28 @@ def main(argv=None):
     parser.add_argument("--output-root", type=Path)
     parser.add_argument("--timeout-minutes", type=int, default=120)
     parser.add_argument("--no-plots", action="store_true")
+    parser.add_argument("--scene-a-only", action="store_true",
+                        help="run only problem 1 for all selected cases and core counts")
     parser.add_argument("--_worker-run", type=Path, help=argparse.SUPPRESS)
     parser.add_argument("--_worker-case", help=argparse.SUPPRESS)
     parser.add_argument("--_worker-core", type=int, help=argparse.SUPPRESS)
     parser.add_argument("--_worker-singlecore", action="store_true", help=argparse.SUPPRESS)
+    parser.add_argument("--_worker-scene-a-only", action="store_true", help=argparse.SUPPRESS)
     args = parser.parse_args(argv)
     if args._worker_case:
         if args._worker_singlecore:
-            print(singlecore(args._worker_run, args._worker_case))
+            print(singlecore(args._worker_run, args._worker_case,
+                             args._worker_scene_a_only))
         else:
             print(optimize(args._worker_run, args._worker_case, args._worker_core,
-                           args.small_budget, args.large_budget))
+                           args.small_budget, args.large_budget,
+                           ("A",) if args._worker_scene_a_only else tuple(FOLDERS)))
         return 0
     prior = read_json(args.run / "manifest.json") if args.run else None
+    scenes = (["A"] if args.scene_a_only else
+              prior.get("scenes", list(FOLDERS)) if prior else list(FOLDERS))
+    if prior and args.scene_a_only and prior.get("scenes", list(FOLDERS)) != ["A"]:
+        parser.error("resume mismatch: scenes")
     cores = args.cores if args.cores is not None else (prior["cores"] if prior else [2, 3, 4, 5])
     small = args.small_budget if args.small_budget is not None else (prior["small_budget"] if prior else 72)
     large = args.large_budget if args.large_budget is not None else (prior["large_budget"] if prior else 44)
@@ -391,12 +472,15 @@ def main(argv=None):
     if (args.workers < 1 or small < 1 or large < 1 or args.timeout_minutes < 1 or
             cores != sorted(set(cores)) or any(core not in (2, 3, 4, 5) for core in cores)):
         parser.error("invalid workers, budget, timeout or cores")
-    identity = {"cases": cases, "cores": cores, "small_budget": small, "large_budget": large,
+    identity = {"cases": cases, "cores": cores, "scenes": scenes,
+                "small_budget": small, "large_budget": large,
                 "config_sha256": file_hash(DATA / "config.txt"),
                 "input_hashes": input_hashes(cases), "source_hashes": source_hashes()}
     if prior:
         run = args.run.resolve()
         for key, value in identity.items():
+            if key == "scenes" and key not in prior and value == list(FOLDERS):
+                continue
             if prior.get(key) != value:
                 parser.error(f"resume mismatch: {key}")
         manifest = prior
@@ -421,16 +505,18 @@ def main(argv=None):
                 pass
             baseline_cases.append(case)
         process_failures.extend(run_tasks(run, [(case, 1) for case in baseline_cases], args.workers,
-                                          args.timeout_minutes, (small, large), True))
+                                          args.timeout_minutes, (small, large), True,
+                                          scene_a_only=scenes == ["A"]))
         pending = [(case, core) for case in cases for core in cores
-                   if not all(complete_job(run, case, core, scene) for scene in FOLDERS)]
-        process_failures.extend(run_tasks(run, pending, args.workers, args.timeout_minutes, (small, large)))
+                   if not all(complete_job(run, case, core, scene) for scene in scenes)]
+        process_failures.extend(run_tasks(run, pending, args.workers, args.timeout_minutes,
+                                          (small, large), scene_a_only=scenes == ["A"]))
     except KeyboardInterrupt:
         manifest["status"] = "interrupted"
         atomic_json(run / "manifest.json", manifest)
         print(f"Interrupted; resume with --run {run}", flush=True)
         return 130
-    failures, _ = summarize(run, cases, cores)
+    failures, _ = summarize(run, cases, cores, scenes)
     audit = validate(run) if not failures else {"status": "error", "issues": failures, "checked_plans": 0}
     if audit["status"] == "ok" and not args.no_plots:
         try:
@@ -445,7 +531,11 @@ def main(argv=None):
     required_plots.append(run / "reports" / "problem_3_cache_gain.png")
     manifest["full_experiment_complete"] = bool(
         manifest["status"] == "complete" and len(cases) == 100 and cores == [2, 3, 4, 5]
-        and not args.no_plots and all(path.is_file() for path in required_plots))
+        and scenes == list(FOLDERS) and not args.no_plots
+        and all(path.is_file() for path in required_plots))
+    manifest["problem_1_complete"] = bool(
+        manifest["status"] == "complete" and "A" in scenes
+        and len(cases) == 100 and cores == [2, 3, 4, 5])
     manifest["finished_at"] = datetime.now().astimezone().isoformat()
     manifest["process_failures"] = process_failures
     atomic_json(run / "manifest.json", manifest)

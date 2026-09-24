@@ -11,6 +11,7 @@ from collections import defaultdict
 from partition import generate_candidates
 from fixed import _minimum_id_topological_order, _one_plan
 from official import derive_multicore_plan
+from graph import graph_view
 from stub_multicore_cut_and_schedule import (
     _build_op_adjacency, _contract_excluded_copy_nodes,
 )
@@ -24,6 +25,70 @@ def idblock_candidates(graph, cores, sizes):
     order = _minimum_id_topological_order(ops, preds, succs)
     for size in dict.fromkeys(min(size, max(1, len(order))) for size in sizes):
         yield f"fixed_{size}", _one_plan(graph, cores, size, ops, order, succs)
+
+
+def component_candidates(graph, cores):
+    """Place independent operation components on different cores for scene A."""
+    ops, order, preds = graph_view(graph)
+    adjacency = {node: set() for node in order}
+    for dst, links in preds.items():
+        for src in links:
+            adjacency[src].add(dst)
+            adjacency[dst].add(src)
+    seen = set()
+    components = []
+    for node in order:
+        if node in seen:
+            continue
+        pending = [node]
+        seen.add(node)
+        component = []
+        while pending:
+            current = pending.pop()
+            component.append(current)
+            for neighbor in sorted(adjacency[current]):
+                if neighbor not in seen:
+                    seen.add(neighbor)
+                    pending.append(neighbor)
+        components.append(component)
+    if len(components) < 2:
+        return
+
+    by_pipe = []
+    for component in components:
+        pipes = {}
+        for node in component:
+            op = ops[node]
+            pipes[op["pipe"]] = pipes.get(op["pipe"], 0) + op["cycles"]
+        by_pipe.append(pipes)
+    ordering = sorted(range(len(components)),
+                      key=lambda i: (-max(by_pipe[i].values()),
+                                     -sum(by_pipe[i].values()), min(components[i])))
+    for mode in ("total", "pipe"):
+        mapping = {}
+        schedules = [[] for _ in range(cores)]
+        loads = [{} for _ in range(cores)]
+        for subgraph, index in enumerate(ordering):
+            pipes = by_pipe[index]
+
+            def projected(core):
+                combined = {pipe: loads[core].get(pipe, 0) + pipes.get(pipe, 0)
+                            for pipe in set(loads[core]) | set(pipes)}
+                return max(combined.values(), default=0)
+
+            if mode == "pipe":
+                core = min(range(cores), key=lambda c: (projected(c),
+                           sum(loads[c].values()), c))
+            else:
+                core = min(range(cores), key=lambda c: (
+                    max(loads[c].values(), default=0), len(schedules[c]), c))
+            schedules[core].append(subgraph)
+            for pipe, work in pipes.items():
+                loads[core][pipe] = loads[core].get(pipe, 0) + work
+            for node in components[index]:
+                mapping[str(node)] = subgraph
+        yield f"components_{mode}", {"node_to_subgraph": mapping,
+                                      "core_schedules": schedules}
 
 
 def initial_candidates(graph, cores, scene, config):
@@ -101,6 +166,7 @@ def neighbors(graph, plan, scene, limit=32):
             split_count += 1
             if emitted >= limit:
                 return
+
             if split_count >= 12:
                 break
 
@@ -154,6 +220,76 @@ def neighbors(graph, plan, scene, limit=32):
             rows = copy.deepcopy(schedules)
             rows[core][index], rows[core][index + 1] = rows[core][index + 1], rows[core][index]
             yield candidate(f"swap_{core}_{index}", dict(mapping), rows)
+            emitted += 1
+            if emitted >= limit:
+                return
+
+def a_neighbors(graph, plan, limit=48):
+    """Problem-one local search: remove expensive Task boundaries first.
+
+    Crossing bytes are only a priority estimate. Every yielded plan is still
+    checked and timed by the official scene-A evaluator.
+    """
+    view = derive_multicore_plan(graph, plan)
+    mapping = plan["node_to_subgraph"]
+    schedules = plan["core_schedules"]
+    _, _, preds = graph_view(graph)
+    traffic = defaultdict(int)
+    for dst, links in preds.items():
+        target = view["mapping"][dst]
+        for src, (size, _) in links.items():
+            source = view["mapping"][src]
+            if source != target:
+                traffic[source, target] += size
+
+    work_by_pipe = defaultdict(lambda: defaultdict(int))
+    ops = {op["id"]: op for op in graph["ops"]}
+    for node, sg in view["mapping"].items():
+        work_by_pipe[sg][ops[node]["pipe"]] += ops[node]["cycles"]
+    work = {sg: max(pipes.values(), default=0) for sg, pipes in work_by_pipe.items()}
+    loads = [sum(work[sg] for sg in row) for row in schedules]
+    emitted = 0
+
+    adjacent = []
+    for core, row in enumerate(schedules):
+        for left, right in zip(row, row[1:]):
+            adjacent.append((-traffic[left, right] - traffic[right, left],
+                             -(work[left] + work[right]), core, left, right))
+    for _, _, core, left, right in sorted(adjacent)[:8]:
+        rows = copy.deepcopy(schedules)
+        rows[core].remove(right)
+        new_mapping = {node: (left if sg == right else sg)
+                       for node, sg in mapping.items()}
+        yield f"merge_{left}_{right}", {"node_to_subgraph": new_mapping,
+                                        "core_schedules": rows}
+        emitted += 1
+        if emitted >= limit:
+            return
+
+    # Move the largest work items from the busiest cores to the least loaded.
+    movable = sorted(work, key=lambda sg: (-loads[view["core_by_subgraph"][sg]],
+                                           -work[sg], sg))[:8]
+    for sg in movable:
+        source = view["core_by_subgraph"][sg]
+        targets = sorted((core for core in range(len(schedules)) if core != source),
+                         key=lambda core: (loads[core], core))[:2]
+        for target in targets:
+            positions = dict.fromkeys((0, len(schedules[target]) // 2,
+                                       len(schedules[target])))
+            for position in positions:
+                rows = copy.deepcopy(schedules)
+                rows[source].remove(sg)
+                rows[target].insert(position, sg)
+                yield f"move_{sg}_{target}_{position}", {
+                    "node_to_subgraph": dict(mapping), "core_schedules": rows}
+                emitted += 1
+                if emitted >= limit:
+                    return
+
+    # Retain split and reorder moves as escape routes after coarsening.
+    for label, candidate in neighbors(graph, plan, "A", limit=48):
+        if label.startswith(("split_", "swap_")):
+            yield label, candidate
             emitted += 1
             if emitted >= limit:
                 return

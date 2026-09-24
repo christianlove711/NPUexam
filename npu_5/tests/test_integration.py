@@ -20,6 +20,24 @@ from export import export  # noqa: E402
 
 
 class OfficialContractTests(unittest.TestCase):
+    def test_problem_one_only_runner(self):
+        with tempfile.TemporaryDirectory(prefix="npu5_a_only_") as directory:
+            result = subprocess.run(
+                [sys.executable, str(ROOT / "run.py"), "--scene-a-only",
+                 "--cases", "case_019", "--cores", "2", "--workers", "1",
+                 "--small-budget", "8", "--large-budget", "8", "--no-plots",
+                 "--output-root", directory],
+                cwd=PROJECT, capture_output=True, text=True, timeout=60)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            runs = list(Path(directory).iterdir())
+            self.assertEqual(len(runs), 1)
+            run = runs[0]
+            self.assertEqual(read_json(run / "manifest.json")["scenes"], ["A"])
+            self.assertTrue((run / "problem_1" / "summary.csv").is_file())
+            self.assertFalse((run / "problem_2").exists())
+            self.assertFalse((run / "problem_3").exists())
+            self.assertEqual(validate(run, replay=True)["status"], "ok")
+
     def test_three_scenes_pairing_and_resume(self):
         with tempfile.TemporaryDirectory(prefix="npu5_test_") as directory:
             run = Path(directory)
@@ -52,7 +70,8 @@ class OfficialContractTests(unittest.TestCase):
         with tempfile.TemporaryDirectory(prefix="npu5_isolated_") as directory:
             isolated = Path(directory)
             shutil.copytree(ROOT, isolated / "npu_5", ignore=shutil.ignore_patterns(
-                "__pycache__", "runs", "tests", "*.pyc"))
+                "__pycache__", "runs", "targeted_runs", "diagnostics",
+                "tests", "*.pyc"))
             shutil.copytree(PROJECT / "code", isolated / "code", ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
             (isolated / "data").mkdir()
             shutil.copy2(DATA / "config.txt", isolated / "data" / "config.txt")

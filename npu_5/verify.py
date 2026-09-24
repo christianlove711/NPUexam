@@ -18,7 +18,7 @@ def representative_replay(run):
     for case in picks:
         graph = read_json(DATA / f"{case}.json")
         for core in manifest["cores"]:
-            for scene in FOLDERS:
+            for scene in manifest.get("scenes", list(FOLDERS)):
                 job_path, plan_path = job_paths(run, case, core, scene)
                 job, plan = read_json(job_path), read_json(plan_path)
                 actual = evaluate(graph, plan, scene, config)
