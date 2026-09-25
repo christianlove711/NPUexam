@@ -1,0 +1,75 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 98538,
+    "added_copy_bytes": 2598842,
+    "scheduled_copy_bytes": 4428640,
+    "original_graph_copy_bytes": 1829798,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 43008,
+        "UB": 15552
+      },
+      "1": {
+        "L1": 43008,
+        "UB": 15552
+      },
+      "2": {
+        "L1": 43008,
+        "UB": 36864
+      },
+      "3": {
+        "L1": 43008,
+        "UB": 28672
+      },
+      "4": {
+        "L1": 43008,
+        "UB": 32768
+      }
+    },
+    "partition_added_copy_bytes": 2598842,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        86043,
+        86292,
+        98437,
+        98538,
+        95688
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 50489,
+          "PIPE_M": 41824,
+          "PIPE_MTE3": 3960,
+          "PIPE_V": 19988
+        },
+        {
+          "PIPE_MTE2": 48725,
+          "PIPE_V": 17768,
+          "PIPE_MTE3": 3553,
+          "PIPE_M": 36936
+        },
+        {
+          "PIPE_MTE2": 51135,
+          "PIPE_M": 35308,
+          "PIPE_MTE3": 2384,
+          "PIPE_V": 24439
+        },
+        {
+          "PIPE_MTE2": 43320,
+          "PIPE_V": 20222,
+          "PIPE_M": 32448,
+          "PIPE_MTE3": 1919
+        },
+        {
+          "PIPE_MTE2": 32922,
+          "PIPE_M": 27092,
+          "PIPE_MTE3": 2271,
+          "PIPE_V": 17327
+        }
+      ],
+      "late_subgraphs": []
+    }
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 2086321,
+    "added_copy_bytes": 641460,
+    "scheduled_copy_bytes": 1034678,
+    "original_graph_copy_bytes": 393218,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 196608,
+        "UB": 65540
+      },
+      "1": {
+        "L1": 196608,
+        "UB": 65538
+      },
+      "2": {
+        "L1": 65536,
+        "UB": 65538
+      },
+      "3": {
+        "L1": 98304,
+        "UB": 65538
+      },
+      "4": {
+        "L1": 98304,
+        "UB": 65538
+      }
+    },
+    "partition_added_copy_bytes": 641460,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        2086321,
+        2085780,
+        2084742,
+        2084704,
+        2084202
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 7584,
+          "PIPE_V": 1923872,
+          "PIPE_MTE3": 1369
+        },
+        {
+          "PIPE_MTE2": 7010,
+          "PIPE_V": 1921685,
+          "PIPE_MTE3": 1377
+        },
+        {
+          "PIPE_MTE2": 7267,
+          "PIPE_V": 1296383,
+          "PIPE_MTE3": 459
+        },
+        {
+          "PIPE_MTE2": 7617,
+          "PIPE_V": 1286975,
+          "PIPE_MTE3": 770
+        },
+        {
+          "PIPE_MTE2": 7882,
+          "PIPE_V": 1286060,
+          "PIPE_MTE3": 1324
+        }
+      ],
+      "late_subgraphs": [
+        7012,
+        7010,
+        7007,
+        7001,
+        7000,
+        7011,
+        7009,
+        7008,
+        7006,
+        7005,
+        7004,
+        7002,
+        7003,
+        6999,
+        6998,
+        6996,
+        6997,
+        6995,
+        6992,
+        6991,
+        6993,
+        6994,
+        6990,
+        6989
+      ],
+      "cache_miss_reasons": {
+        "first_read_bytes": 433594,
+        "unfinished_first_read_bytes": 0,
+        "post_insert_miss_bytes": 0,
+        "oversized_bytes": 0
+      }
+    },
+    "cache_hit_rate": 0.5631180262656754,
+    "cache_hit_bytes": 558880,
+    "cache_miss_bytes": 433594
+  }
+}

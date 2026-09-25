@@ -1,0 +1,109 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 7269,
+    "added_copy_bytes": 111384,
+    "scheduled_copy_bytes": 148798,
+    "original_graph_copy_bytes": 37414,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 2560,
+        "UB": 2886
+      },
+      "1": {
+        "L1": 3104,
+        "UB": 2598
+      },
+      "2": {
+        "L1": 2336,
+        "UB": 2592
+      },
+      "3": {
+        "L1": 2336,
+        "UB": 2596
+      },
+      "4": {
+        "L1": 2336,
+        "UB": 2596
+      }
+    },
+    "partition_added_copy_bytes": 111384,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        7264,
+        7229,
+        7269,
+        5443,
+        6945
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 938,
+          "PIPE_V": 4141,
+          "PIPE_M": 1910,
+          "PIPE_MTE3": 219
+        },
+        {
+          "PIPE_MTE2": 1012,
+          "PIPE_M": 1936,
+          "PIPE_V": 4262,
+          "PIPE_MTE3": 325
+        },
+        {
+          "PIPE_MTE2": 711,
+          "PIPE_M": 1066,
+          "PIPE_MTE3": 152,
+          "PIPE_V": 2256
+        },
+        {
+          "PIPE_MTE2": 633,
+          "PIPE_M": 1324,
+          "PIPE_MTE3": 235,
+          "PIPE_V": 2788
+        },
+        {
+          "PIPE_MTE2": 618,
+          "PIPE_M": 1072,
+          "PIPE_MTE3": 247,
+          "PIPE_V": 2297
+        }
+      ],
+      "late_subgraphs": [
+        84,
+        85,
+        86,
+        90,
+        81,
+        75,
+        80,
+        74,
+        78,
+        79,
+        73,
+        77,
+        72,
+        70,
+        65,
+        63,
+        76,
+        71,
+        64,
+        62,
+        60,
+        54,
+        52,
+        91
+      ],
+      "cache_miss_reasons": {
+        "first_read_bytes": 54662,
+        "unfinished_first_read_bytes": 17760,
+        "post_insert_miss_bytes": 0,
+        "oversized_bytes": 0
+      }
+    },
+    "cache_hit_rate": 0.3006084017382907,
+    "cache_hit_bytes": 31128,
+    "cache_miss_bytes": 72422
+  }
+}

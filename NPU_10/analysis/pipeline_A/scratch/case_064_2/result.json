@@ -1,0 +1,42 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 20106,
+    "added_copy_bytes": 101576,
+    "scheduled_copy_bytes": 138990,
+    "original_graph_copy_bytes": 37414,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 5632,
+        "UB": 10112
+      },
+      "1": {
+        "L1": 5120,
+        "UB": 4162
+      }
+    },
+    "partition_added_copy_bytes": 101576,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        19684,
+        20106
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 1039,
+          "PIPE_V": 9118,
+          "PIPE_M": 4344,
+          "PIPE_MTE3": 453
+        },
+        {
+          "PIPE_MTE2": 868,
+          "PIPE_V": 6626,
+          "PIPE_M": 2964,
+          "PIPE_MTE3": 360
+        }
+      ],
+      "late_subgraphs": []
+    }
+  }
+}

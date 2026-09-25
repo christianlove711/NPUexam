@@ -1,0 +1,104 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 698351,
+    "added_copy_bytes": 727132,
+    "scheduled_copy_bytes": 1120350,
+    "original_graph_copy_bytes": 393218,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 196608,
+        "UB": 65538
+      },
+      "1": {
+        "L1": 196608,
+        "UB": 65538
+      },
+      "2": {
+        "L1": 65536,
+        "UB": 65538
+      },
+      "3": {
+        "L1": 98304,
+        "UB": 65538
+      },
+      "4": {
+        "L1": 98304,
+        "UB": 65538
+      }
+    },
+    "partition_added_copy_bytes": 727132,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        698351,
+        697810,
+        696772,
+        696734,
+        696232
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 1007,
+          "PIPE_V": 630854,
+          "PIPE_MTE3": 451
+        },
+        {
+          "PIPE_MTE2": 5508,
+          "PIPE_V": 634955,
+          "PIPE_MTE3": 458
+        },
+        {
+          "PIPE_MTE2": 5152,
+          "PIPE_V": 429268,
+          "PIPE_MTE3": 154
+        },
+        {
+          "PIPE_MTE2": 5809,
+          "PIPE_V": 426516,
+          "PIPE_MTE3": 257
+        },
+        {
+          "PIPE_MTE2": 7275,
+          "PIPE_V": 433202,
+          "PIPE_MTE3": 810
+        }
+      ],
+      "late_subgraphs": [
+        2320,
+        2318,
+        2315,
+        2309,
+        2308,
+        2319,
+        2317,
+        2316,
+        2314,
+        2313,
+        2312,
+        2310,
+        2311,
+        2307,
+        2306,
+        2304,
+        2305,
+        2303,
+        2300,
+        2299,
+        2301,
+        2302,
+        2298,
+        2297
+      ],
+      "cache_miss_reasons": {
+        "first_read_bytes": 428502,
+        "unfinished_first_read_bytes": 0,
+        "post_insert_miss_bytes": 0,
+        "oversized_bytes": 0
+      }
+    },
+    "cache_hit_rate": 0.6048713555661701,
+    "cache_hit_bytes": 655960,
+    "cache_miss_bytes": 428502
+  }
+}

@@ -1,0 +1,104 @@
+{
+  "ok": true,
+  "metrics": {
+    "makespan": 693205,
+    "added_copy_bytes": 628816,
+    "scheduled_copy_bytes": 1022034,
+    "original_graph_copy_bytes": 393218,
+    "memory_peak_by_core": {
+      "0": {
+        "L1": 196608,
+        "UB": 65540
+      },
+      "1": {
+        "L1": 196608,
+        "UB": 65538
+      },
+      "2": {
+        "L1": 65536,
+        "UB": 65538
+      },
+      "3": {
+        "L1": 98304,
+        "UB": 65538
+      },
+      "4": {
+        "L1": 98304,
+        "UB": 65538
+      }
+    },
+    "partition_added_copy_bytes": 628816,
+    "spill_added_copy_bytes": 0,
+    "diagnostics": {
+      "core_end": [
+        693205,
+        692664,
+        691626,
+        691588,
+        691086
+      ],
+      "pipe_busy": [
+        {
+          "PIPE_MTE2": 7176,
+          "PIPE_V": 637142,
+          "PIPE_MTE3": 451
+        },
+        {
+          "PIPE_MTE2": 6602,
+          "PIPE_V": 634955,
+          "PIPE_MTE3": 459
+        },
+        {
+          "PIPE_MTE2": 6246,
+          "PIPE_V": 429268,
+          "PIPE_MTE3": 154
+        },
+        {
+          "PIPE_MTE2": 6904,
+          "PIPE_V": 426516,
+          "PIPE_MTE3": 260
+        },
+        {
+          "PIPE_MTE2": 7270,
+          "PIPE_V": 426914,
+          "PIPE_MTE3": 813
+        }
+      ],
+      "late_subgraphs": [
+        2320,
+        2318,
+        2315,
+        2309,
+        2308,
+        2319,
+        2317,
+        2316,
+        2314,
+        2313,
+        2312,
+        2310,
+        2311,
+        2307,
+        2306,
+        2304,
+        2305,
+        2303,
+        2300,
+        2299,
+        2301,
+        2302,
+        2298,
+        2297
+      ],
+      "cache_miss_reasons": {
+        "first_read_bytes": 428496,
+        "unfinished_first_read_bytes": 0,
+        "post_insert_miss_bytes": 0,
+        "oversized_bytes": 0
+      }
+    },
+    "cache_hit_rate": 0.5654868620658884,
+    "cache_hit_bytes": 557656,
+    "cache_miss_bytes": 428496
+  }
+}
